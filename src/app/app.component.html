@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Blood Bank Manager</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -7,16 +7,21 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#">User </a>
+          <a class="nav-link" routerLink="/user">User </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Blood Bank</a>
+          <a class="nav-link" routerLink="/bloodBank">Blood Bank</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Hospital</a>
+          <a class="nav-link" routerLink="/hospital">Hospital</a>
         </li>
       </ul>
 
     </div>
   </nav>
+<div class="container">
+  
+  <router-outlet></router-outlet>
+</div>
+
 </div>
