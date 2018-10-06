@@ -4,7 +4,11 @@ const router = express.Router();
 
 // declare mongo db credentials for making http requests
 const mongojs = require('mongojs');
-const db = mongojs('mongodb://user:mypassword@ds137040.mlab.com:37040/capillary',['gamelist']);
+const userdb = mongojs('mongodb://bloodbankuser:team6password@ds113670.mlab.com:13670/bloodbankmanager',['user']);
+
+const hospitaldb = mongojs('mongodb://bloodbankuser:team6password@ds113670.mlab.com:13670/bloodbankmanager',['hospital']);
+
+const bloodbankdb = mongojs('mongodb://bloodbankuser:team6password@ds113670.mlab.com:13670/bloodbankmanager',['bloodBank']);
 
 
 /* GET api listing. */
@@ -14,7 +18,7 @@ router.get('/', (req, res) => {
 
 // Get all posts
 router.get('/posts', (req, res) => {
-     db.gamelist.find(function(err, docs) {
+  userdb.gamelist.find(function(err, docs) {
         res.send(docs);
     });
 
