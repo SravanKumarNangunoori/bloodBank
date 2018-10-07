@@ -5,6 +5,7 @@ import {
   AuthServiceConfig,
   GoogleLoginProvider,
 } from "angular-6-social-login";
+import { HttpClientModule } from '@angular/common/http'; 
 
 import { AppComponent } from './app.component';
 import { BloodBankComponent } from './blood-bank/blood-bank.component';
@@ -12,6 +13,7 @@ import { HospitalComponent } from './hospital/hospital.component';
 import { UserComponent } from './user/user.component';
 import { RouterModule, Routes } from '@angular/router';
 import { SigninComponent } from './signin/signin.component';
+import { RestClientService } from './rest.client.service';
 
 
 // app routings
@@ -54,14 +56,14 @@ export function getAuthServiceConfigs() {
     SigninComponent
   ],
   imports: [
-    BrowserModule,SocialLoginModule,
+    BrowserModule,SocialLoginModule,HttpClientModule,
     
     RouterModule.forRoot(routes),
   ],
   providers: [  {
     provide: AuthServiceConfig,
     useFactory: getAuthServiceConfigs
-  }],
+  },RestClientService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

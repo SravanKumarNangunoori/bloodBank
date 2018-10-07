@@ -35,4 +35,13 @@ router.get('/bloodbankcollection', (req, res) => {
     }); 
 });
 
+router.post('/postuser',(req,res)=>{
+  userdb.insert(req.body,function(err, doc) {
+           console.log(doc);
+           console.log("Successfully Added")
+           if (err) throw err;
+           res.send(doc);
+});
+});
+
 module.exports = router;
