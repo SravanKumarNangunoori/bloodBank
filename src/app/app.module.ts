@@ -6,6 +6,7 @@ import {
   GoogleLoginProvider,
 } from "angular-6-social-login";
 import { HttpClientModule } from '@angular/common/http'; 
+import {FormsModule} from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { BloodBankComponent } from './blood-bank/blood-bank.component';
@@ -56,7 +57,8 @@ export function getAuthServiceConfigs() {
     SigninComponent
   ],
   imports: [
-    BrowserModule,SocialLoginModule,HttpClientModule,
+    BrowserModule,SocialLoginModule,HttpClientModule,FormsModule,
+
     
     RouterModule.forRoot(routes),
   ],
