@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   SocialLoginModule,
   AuthServiceConfig,
@@ -12,7 +13,7 @@ import { BloodBankComponent } from './blood-bank/blood-bank.component';
 import { HospitalComponent } from './hospital/hospital.component';
 import { UserComponent } from './user/user.component';
 import { RouterModule, Routes } from '@angular/router';
-import { SigninComponent } from './signin/signin.component';
+import { SigninComponent , NgbdModalContent} from './signin/signin.component';
 import { RestClientService } from './rest.client.service';
 
 
@@ -53,12 +54,19 @@ export function getAuthServiceConfigs() {
     BloodBankComponent,
     HospitalComponent,
     UserComponent,
-    SigninComponent
+    SigninComponent,
+    NgbdModalContent,
+  
+    
+  ],
+  entryComponents: [
+    NgbdModalContent,
+    
   ],
   imports: [
     BrowserModule,SocialLoginModule,HttpClientModule,
-    
-    RouterModule.forRoot(routes),
+    NgbModule.forRoot(),
+    RouterModule.forRoot(routes)
   ],
   providers: [  {
     provide: AuthServiceConfig,

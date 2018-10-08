@@ -18,7 +18,7 @@ export class UserComponent implements OnInit {
 
   ///get user data
   getUsersData() {
-    this.restclient.get('/api/usercollection').subscribe(
+    this.restclient.get('http://localhost:3000/api/usercollection').subscribe(
       (result) => {
         console.log("user data is", result);
       }, (error) => {
@@ -29,7 +29,7 @@ export class UserComponent implements OnInit {
 
   //post user Data
   postUserData() {
-    this.restclient.post('api/postuser').subscribe(
+    this.restclient.post('http://localhost:3000/api/usercollection', this.mockData).subscribe(
       (result) => {
         console.log("Sucess");
       }, (error) => {
@@ -37,5 +37,16 @@ export class UserComponent implements OnInit {
       }
     )
   }
+
+  socialSignIn() {
+    this.restclient.post('http://localhost:3000/api/socialSignIn()').subscribe(
+      (result) => {
+        console.log("Sucess");
+      }, (error) => {
+        console.log(error)
+      }
+    )
+  }
+
 
 }
