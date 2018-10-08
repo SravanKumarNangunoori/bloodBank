@@ -4,11 +4,11 @@ const router = express.Router();
 
 // declare mongo db credentials for making http requests
 const mongojs = require('mongojs');
-const userdb = mongojs('mongodb://bloodbankuser:team6password@ds113670.mlab.com:13670/bloodbankmanager').user;
+const userdb = mongojs('mongodb://team6user:team6password@ds125673.mlab.com:25673/bloodbank').userdb;
 
-const hospitaldb = mongojs('mongodb://bloodbankuser:team6password@ds113670.mlab.com:13670/bloodbankmanager').hospital;
+const hospitaldb = mongojs('mongodb://team6user:team6password@ds125673.mlab.com:25673/bloodbank').hospitaldb;
 
-const bloodbankdb = mongojs('mongodb://bloodbankuser:team6password@ds113670.mlab.com:13670/bloodbankmanager').bloodBank;
+const bloodbankdb = mongojs('mongodb://team6user:team6password@ds125673.mlab.com:25673/bloodbank').bloodbankdb;
 
 
 /* GET api listing. */
@@ -36,6 +36,15 @@ router.get('/bloodbankcollection', (req, res) => {
 });
 
 router.post('/postuser',(req,res)=>{
+  userdb.insert(req.body,function(err, doc) {
+           console.log(doc);
+           console.log("Successfully Added")
+           if (err) throw err;
+           res.send(doc);
+});
+});
+
+router.post('/postname',(req,res)=>{
   userdb.insert(req.body,function(err, doc) {
            console.log(doc);
            console.log("Successfully Added")
