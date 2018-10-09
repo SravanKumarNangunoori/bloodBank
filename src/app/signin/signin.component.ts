@@ -12,9 +12,12 @@ export class SigninComponent implements OnInit {
   closeResult:String;
   registerForm: FormGroup;
   userInfoForm:FormGroup;
+  Hospitalform:FormGroup;
   userType:string;  
   roleModal: boolean;
   userModal:boolean;
+  HospitalModal:boolean;
+
   constructor( private formBuilder: FormBuilder,private socialAuthService: AuthService,private restclient:RestClientService ) {}
  
   ngOnInit(){
@@ -32,10 +35,25 @@ export class SigninComponent implements OnInit {
   zip: ['',Validators.required],
   age:['',Validators.required],
   bloodGroup: ['',Validators.required],
-
+   
 });
-    // this.roleModal=true;
-    this.userModal=true;
+
+  this.Hospitalform = this.formBuilder.group({
+  email: ['',Validators.required],
+  name: ['',Validators.required],
+  address:['',Validators.required],
+  phonenumber:['',Validators.required],
+  state: ['',Validators.required],  
+  city: ['',Validators.required],
+  zip: ['',Validators.required],
+  AmbulanceNumber:['',Validators.required],
+   
+});
+
+    //this.roleModal=true;
+    //this.userModal=true;
+    this.HospitalModal=true;
+
   }
   public socialSignIn() {
       let socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;   
