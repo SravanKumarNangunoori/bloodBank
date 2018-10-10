@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {  AuthService,GoogleLoginProvider } from 'angular-6-social-login';
+import { AuthService, GoogleLoginProvider } from 'angular-6-social-login';
 import { RestClientService } from '../rest.client.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 @Component({
@@ -8,95 +8,201 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./signin.component.scss']
 })
 export class SigninComponent implements OnInit {
-  user:any;
-  closeResult:String;
+  user: any;
+  closeResult: String;
   registerForm: FormGroup;
-  userInfoForm:FormGroup;
-  Hospitalform:FormGroup;
-  Bloodbankform:FormGroup;
-  userType:string;  
+  userInfoForm: FormGroup;
+  hospitalform: FormGroup;
+  bloodbankform: FormGroup;
+  userType: string;
   roleModal: boolean;
-  userModal:boolean;
-  HospitalModal:boolean;
-  Bloodbankmodal:boolean;
+  userModal: boolean;
+  hospitalModal: boolean;
+  bloodbankmodal: boolean;
 
-  constructor( private formBuilder: FormBuilder,private socialAuthService: AuthService,private restclient:RestClientService ) {}
- 
-  ngOnInit(){
+  constructor(private formBuilder: FormBuilder, private socialAuthService: AuthService, private restclient: RestClientService) { }
+
+  ngOnInit() {
     this.registerForm = this.formBuilder.group({
       roletype: ['', Validators.required],
-  });
+    });
 
-  this.userInfoForm = this.formBuilder.group({
-  email: ['',Validators.required],
-  name: ['',Validators.required],
-  address:['',Validators.required],
-  phonenumber:['',Validators.required],
-  state: ['',Validators.required],  
-  city: ['',Validators.required],
-  zip: ['',Validators.required],
-  age:['',Validators.required],
-  bloodGroup: ['',Validators.required],
-   
-});
+    this.userInfoForm = this.formBuilder.group({
+      email: ['', Validators.required],
+      name: ['', Validators.required],
+      address: ['', Validators.required],
+      phonenumber: ['', Validators.required],
+      state: ['', Validators.required],
+      city: ['', Validators.required],
+      zip: ['', Validators.required],
+      age: ['', Validators.required],
+      bloodGroup: ['', Validators.required],
 
-  this.Hospitalform = this.formBuilder.group({
-  email: ['',Validators.required],
-  name: ['',Validators.required],
-  address:['',Validators.required],
-  phonenumber:['',Validators.required],
-  state: ['',Validators.required],  
-  city: ['',Validators.required],
-  zip: ['',Validators.required],
-  AmbulanceNumber:['',Validators.required],
-   
-});
-  this.Bloodbankform = this.formBuilder.group({
-  email: ['',Validators.required],
-  name: ['',Validators.required],
-  address:['',Validators.required],
-  phonenumber:['',Validators.required],
-  state: ['',Validators.required],  
-  city: ['',Validators.required],
-  zip: ['',Validators.required],
-   
-});
+    });
 
-    this.roleModal=false;
-    this.userModal=false;
-    this.HospitalModal=false;
-    this.Bloodbankmodal=true;
+    this.hospitalform = this.formBuilder.group({
+      email: ['', Validators.required],
+      name: ['', Validators.required],
+      address: ['', Validators.required],
+      phonenumber: ['', Validators.required],
+      state: ['', Validators.required],
+      city: ['', Validators.required],
+      zip: ['', Validators.required],
+      AmbulanceNumber: ['', Validators.required],
+
+    });
+    this.bloodbankform = this.formBuilder.group({
+      email: ['', Validators.required],
+      name: ['', Validators.required],
+      address: ['', Validators.required],
+      phonenumber: ['', Validators.required],
+      state: ['', Validators.required],
+      city: ['', Validators.required],
+      zip: ['', Validators.required],
+
+    });
+
+    this.roleModal = false;
+    this.userModal = false;
+    this.hospitalModal = false;
+    this.bloodbankmodal = false;
 
   }
+
+
+  ///gmail sigin 
   public socialSignIn() {
-      let socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;   
+    let socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
+    let registeredUser;
     console.log()
     this.socialAuthService.signIn(socialPlatformProvider).then(
       (userData) => {
-        console.log(" sign in data : " , userData);
-        this.user=userData;
+        console.log(" sign in data : ", userData);
+        this.user = userData;
         console.log(userData);
+        if(this.user.email!=null){
+          this.restclient.get('/api/registeredUsers').subscribe(
+            (result)=>{
+            registeredUser=result;
+            
+        this.validateUser(registeredUser);
+            },(error)=>{
+              console.log(error);
+            });
+        }
       }
     );
+    
+    }
+  
+
+  validateUser(registeredUser){
+    registeredUser.forEach(element => {
+      if(element.email==this.user.email){
+        this.routeUser(element);
+      }
+    });  
+    
+    this.openRoleModal();
   }
-  submitUsertype(signUpinfo){
-    console.log(signUpinfo);
+
+  routeUser(element){
+    console.log(element);
   }
-  postUserData() {
-    this.restclient.post('/api/socialSignIn').subscribe(
+
+ 
+
+  submitUserRole(roletype) {
+    console.log(this.user, roletype);    
+    this.restclient.post('/api/registerUser',{"email":this.user.email,"roletype":roletype}).subscribe(
+      (result)=>{
+        console.log("userdata posted");
+        if (roletype == 'hospitalManager') {
+          this.closeRoleModal();
+          this.hospitalform.controls['email'].setValue(this.user.email);
+          this.openHospitalModal();
+        } else if (roletype == 'bloodBankManager') {
+          this.closeRoleModal();
+          this.bloodbankform.controls['email'].setValue(this.user.email);
+          this.openBloodBankModal();
+    
+        } else {
+          this.closeRoleModal();
+          this.userInfoForm.controls['email'].setValue(this.user.email);
+          this.userInfoForm.controls['name'].setValue(this.user.name);
+          this.openUserModal();
+        }
+      },
+      (error)=>{
+        console.log(error);
+      });
+
+    
+    
+
+  }
+  submitUserForm(userform){
+    console.log(userform);
+    this.restclient.post('/api/postuser',userform).subscribe(
       (result) => {
-        console.log("Sucess");
+        this.closeUserModal();
+        this.routeUser({"email":this.user.email,"roletype":"commonUser"})
+      }, (error) => {
+        console.log(error)
+      }
+    )
+
+  }
+
+  submitHositalform(hospitalform){
+    console.log(hospitalform);
+    this.restclient.post('/api/posthospital',hospitalform).subscribe(
+      (result) => {
+        this.closeHospitalModal();
+        this.routeUser({"email":this.user.email,"roletype":"hospitalManager"})
       }, (error) => {
         console.log(error)
       }
     )
   }
-  openRoleModal(){
-    this.roleModal=true;
+
+  submitBloodBankform(bloodBankform){
+    console.log(bloodBankform);
+    this.restclient.post('/api/postbloodbank',bloodBankform).subscribe(
+      (result) => {
+        this.closeBloodBankModal()
+        this.routeUser({"email":this.user.email,"roletype":"bloodBankManager"})
+      }, (error) => {
+        console.log(error)
+      }
+    )
   }
-  closeRoleModal(){
-    this.roleModal=false;
+
+
+  openRoleModal() {
+    this.roleModal = true;
   }
-  
-  
+  closeRoleModal() {
+    this.roleModal = false;
+  }
+
+  openUserModal() {
+    this.userModal = true;
+  }
+  closeUserModal() {
+    this.userModal = false;
+  }
+  openHospitalModal() {
+    this.hospitalModal = true
+  }
+  closeHospitalModal() {
+    this.hospitalModal = false;
+  }
+
+  openBloodBankModal() {
+    this.bloodbankmodal = true;
+  }
+  closeBloodBankModal() {
+    this.bloodbankmodal = false;
+  }
 }
