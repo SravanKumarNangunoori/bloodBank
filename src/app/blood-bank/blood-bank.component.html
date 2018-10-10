@@ -1,3 +1,59 @@
-<p>
-  blood-bank works!
-</p>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+        <script type = "text/javascript" src = "blood-bank.component.ts"></script>
+</head>
+<body>
+            
+        
+             <button class="btn new" id = "button1" (click)=showbloodbankdata()>Retreive Data</button>
+
+            
+             <button class="btn old" id = "button2" (click)=getbloodbankdata()>Edit data</button>
+
+             <button class="btn old" id = "button3" (click)=postbloodbankdata()>Add data</button>
+
+             <button class="btn old" id = "button4" (click)=deleteall()>delete all</button>
+
+             <select name="select_bloodbank" *ngIf="showForm" (change)="selectChange($event)">
+                    <option *ngFor="let item of bloodbanks" value="{{item._id}}">{{ item.Name }}</option>
+                </select>
+                <form *ngIf="showForm" (submit)="$event.preventDefault(); onFormSubmit($event)">
+                    <input type="text" name="name" placeholder="Name" value="{{bloodbank.Name}}">
+                    <input type="text" name="address" placeholder="Address" value="{{bloodbank.Address}}">
+                    <input type="text" name="apos" placeholder="Apos" value="{{bloodbank.Apos}}"> 
+                    <input type="text" name="aminus" placeholder="Aminus" value="{{bloodbank.Aminus}}"> 
+                    <input type="text" name="bpos" placeholder="Bpos" value="{{bloodbank.Bpos}}"> 
+                    <input type="text" name="bminus" placeholder="Bminus" value="{{bloodbank.Bminus}}"> 
+                    <input type="text" name="abpos" placeholder="ABpos" value="{{bloodbank.ABpos}}"> 
+                    <input type="text" name="abminus" placeholder="ABminus" value="{{bloodbank.ABminus}}"> 
+                    <input type="text" name="opos" placeholder="Opos" value="{{bloodbank.Opos}}"> 
+                    <input type="text" name="ominus" placeholder="Ominus" value="{{bloodbank.Ominus}}">  
+                    <input type="hidden" name="id" value="{{bloodbank._id}}">
+                    <button>Update</button>
+                </form>
+    
+                <select name="view_bloodbank" *ngIf="showbloodbankDetails" (change)="selectDetailChange($event)">
+                    <option *ngFor="let item of bloodbanks" value="{{item._id}}">{{ item.Name }}</option>
+                </select>
+                <div *ngIf="showbloodbank">
+                    <div *ngFor="let item of bloodbanks">
+                        <div *ngIf="item._id == activebloodbankId">
+                            <p><b>Name:</b> {{ item.Name }}</p>
+                            <p><b>Address:</b> {{ item.Address }}</p><br/>
+                            <p><b>A+:</b> {{ item.Apos }}</p><br/>
+                            <p><b>B+:</b> {{ item.Bpos }}</p><br/>
+                            <p><b>O+:</b> {{ item.Opos }}</p><br/>
+                            <p><b>AB+:</b> {{ item.ABpos }}</p><br/>
+                            <p><b>A-:</b> {{ item.Aminus }}</p><br/>
+                            <p><b>B-:</b> {{ item.Bminus }}</p><br/>
+                            <p><b>O-:</b> {{ item.Ominus }}</p><br/>
+                            <p><b>AB-:</b> {{ item.ABminus }}</p><br/>
+                        </div>
+                    </div>
+                </div>
+             
+
+</body>
+</html>
