@@ -13,10 +13,12 @@ export class SigninComponent implements OnInit {
   registerForm: FormGroup;
   userInfoForm:FormGroup;
   Hospitalform:FormGroup;
+  Bloodbankform:FormGroup;
   userType:string;  
   roleModal: boolean;
   userModal:boolean;
   HospitalModal:boolean;
+  Bloodbankmodal:boolean;
 
   constructor( private formBuilder: FormBuilder,private socialAuthService: AuthService,private restclient:RestClientService ) {}
  
@@ -49,10 +51,21 @@ export class SigninComponent implements OnInit {
   AmbulanceNumber:['',Validators.required],
    
 });
+  this.Bloodbankform = this.formBuilder.group({
+  email: ['',Validators.required],
+  name: ['',Validators.required],
+  address:['',Validators.required],
+  phonenumber:['',Validators.required],
+  state: ['',Validators.required],  
+  city: ['',Validators.required],
+  zip: ['',Validators.required],
+   
+});
 
-    //this.roleModal=true;
-    //this.userModal=true;
-    this.HospitalModal=true;
+    this.roleModal=false;
+    this.userModal=false;
+    this.HospitalModal=false;
+    this.Bloodbankmodal=true;
 
   }
   public socialSignIn() {

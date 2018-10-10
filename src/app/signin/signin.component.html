@@ -96,7 +96,7 @@
                                                                 <option value="b-">B -ve</option>
                                                                 <option value="ab+">AB +ve</option>
                                                                 <option value="ab-">AB -ve</option>
-                                                        </select>
+                                                         </select>
                                                 </div>
                                         </div>
                                         <div class="form-row">
@@ -133,21 +133,18 @@
 
 
 
-
-
-
-<div *ngIf="HospitalModal" class="modal fade show" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+<div *ngIf="Bloodbankmodal" class="modal fade show" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
         aria-hidden="true" style="display:block">
 
         <div class="modal-dialog modal-dialog-centered" role="document">
 
                 <div class="modal-content">
                         <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Please fill in your Hospital Details</h5>
+                                <h5 class="modal-title" id="exampleModalLongTitle">Please fill in your Blood Bank Details</h5>
                         </div>
 
                         <div class="modal-body">
-                                <form [formGroup]="Hospitalform">
+                                <form [formGroup]="Bloodbankform">
                                         <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                         <label for="inputEmail4">Email</label>
@@ -171,11 +168,7 @@
                                                         <input type="text" class="form-control" formControlName="phonenumber"
                                                                 id="inputphoneNumber">
                                                 </div>
-                                                <div class="form-group">
-                                                        <label for="inputAmbulanceNumber">Number of Ambulances Available</label>
-                                                        <input type="text" class="form-control" formControlName="AmbulanceNumber"
-                                                             id="inputAmbulanceNumber">
-                                                </div>
+                                                
                                                                                         </div>
                                         <div class="form-row">
                                                 <div class="form-group col-md-6">
@@ -196,7 +189,7 @@
                                                 </div>
                                         </div>
                                         <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" (click)="submitUsertype(Hospitalform.value)">Submit</button>
+                                                        <button type="button" class="btn btn-secondary" (click)="submitUsertype(Bloodbankform.value)">Submit</button>
                                                 </div>
                                 </form>
                         </div>
