@@ -13,6 +13,7 @@ const bloodbankdb = mongojs('mongodb://team6user:team6password@ds125673.mlab.com
 
 const registeredUserdb = mongojs('mongodb://team6user:team6password@ds125673.mlab.com:25673/bloodbank').registeredUsers ;
 const tempUser = mongojs('mongodb://team6user:team6password@ds125673.mlab.com:25673/bloodbank').hospitalTemp  ;
+const bloodbankTemp = mongojs('mongodb://team6user:team6password@ds125673.mlab.com:25673/bloodbank').bloodBanktemp  ;
 
 
 
@@ -61,6 +62,11 @@ router.post('/postuser',(req,res)=>{
 //            res.send(doc);
 // });
 // });
+
+router.get('/singleUser', (req, res) => {
+  userdb.find({"email":req.body.email},(function(err, docs) {
+        res.send(docs);
+    }))});
 router.post('/registerUser',(req,res)=>{
   registeredUserdb.insert(req.body,function(err, doc) {
            console.log(doc);
@@ -79,8 +85,22 @@ router.post('/posthospital',(req,res)=>{
            console.log("Successfully Added in hospital database")
            if (err) throw err;
            res.send(doc);
+})
 });
+router.post('/postEmergency',(req,docs)=>{
+ userdb.findAndModify({
+  query: {email: req.body.email},
+  update: { $set: {
+    emergency:req.body.emergencyContact
+  }}
+}, function(err, doc){
+  if(err) throw err;
+  console.log(doc);
+  res.send(docs);
+})
 });
+
+
 
 router.post('/updatehospital', (req,res)=>{
   var id = req.body.id;
@@ -138,7 +158,7 @@ router.post('/deleteall', (req, res)=>{
 });
 
 router.post('/postbloodbank',(req,res)=>{
-  bloodbankdb.insert(req.body,function(err, doc) {
+  bloodbankTemp.insert(req.body,function(err, doc) {
            console.log(doc);
            console.log("Successfully Added in bloodbank")
            if (err) throw err;

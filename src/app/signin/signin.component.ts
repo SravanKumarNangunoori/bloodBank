@@ -3,6 +3,8 @@ import { AuthService, GoogleLoginProvider } from 'angular-6-social-login';
 import { RestClientService } from '../rest.client.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { } from '@types/googlemaps';
+import {Router} from "@angular/router";
+import { DataShareService } from '../data.share.service';
 
 @Component({
   selector: 'app-signin',
@@ -27,7 +29,9 @@ export class SigninComponent implements OnInit {
   
   constructor(private formBuilder: FormBuilder,
     private socialAuthService: AuthService,
-    private restclient: RestClientService
+    private restclient: RestClientService,
+    private dataShare:DataShareService,
+    private router:Router
   
     ) {
 
@@ -74,8 +78,8 @@ export class SigninComponent implements OnInit {
 
     });
     this.getLocationOfUser();
-    this.roleModal = true;
-    this.userModal = false;
+    this.roleModal =false ;
+    this.userModal =  false;
     this.hospitalModal = false;
     this.bloodbankmodal = false;
 
@@ -120,6 +124,15 @@ export class SigninComponent implements OnInit {
 
   routeUser(element) {
     console.log(element);
+    this.dataShare.setUserData(element);
+if(element.roletype=='hospitalManager'){  
+this.router.navigate(['/hospital']);
+}else if(element.roletype == 'bloodBankManager'){
+  this.router.navigate(['/bloodBank']);
+}else{ 
+  this.router.navigate(['/user']);
+}
+    console.log(element);
   }
 
 
@@ -158,7 +171,8 @@ export class SigninComponent implements OnInit {
     this.restclient.post('/api/postuser', userform).subscribe(
       (result) => {
         this.closeUserModal();
-        this.routeUser({ "email": this.user.email, "roletype": "commonUser" })
+        console.log()
+        this.routeUser({ "email": this.user.email, "roletype": this.registerForm.value.roletype })
       }, (error) => {
         console.log(error)
       }

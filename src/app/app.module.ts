@@ -12,6 +12,7 @@ import { UserComponent } from './user/user.component';
 import { RouterModule, Routes } from '@angular/router';
 import { SigninComponent } from './signin/signin.component';
 import { RestClientService } from './rest.client.service';
+import { DataShareService } from './data.share.service';
 
 
 // app routings
@@ -61,7 +62,7 @@ export function getAuthServiceConfigs() {
   providers: [  {
     provide: AuthServiceConfig,
     useFactory: getAuthServiceConfigs
-  },RestClientService],
+  },RestClientService,DataShareService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

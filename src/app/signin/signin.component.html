@@ -1,9 +1,9 @@
 <div class="row  login-container">
 
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <div  class="col-lg-12 col-sm-12 col-md-12 col-xs-12" style="text-align:center">
+                        <div  class="col-lg-12 col-sm-12 col-md-12 col-xs-12" style="text-align:right">
 
-                        <h1 class="backgroundLine">One pint<br> can
+                        <h1 class="backgroundLine">Your 15 MINS <br> for One pint<br> can
                                 <br><span class="font-italic"> SAVE THREE LIVES </span></h1>
                                 
                         </div>
@@ -13,11 +13,7 @@
                         Sign up / Sign in with Google</button>
         </div>
 
-        <!-- <div class="col-lg-6 col-sm-12 col-md-6 col-xs-12">
-                <agm-map [latitude]="lat" [longitude]="lng">
-                        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-                </agm-map>
-        </div> -->
+       
                 
 </div>
 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" >
@@ -31,14 +27,19 @@
 
 <div *ngIf=roleModal class="modal  show" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
         aria-hidden="true" style="display:block">
+     
 
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered " role="document">
                 <div class="modal-content">
+                     
                         <div class="modal-header">
                                 <h5 class="modal-title " id="exampleModalLongTitle">We need Some more information to
                                         complete your Registration</h5>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body row">
+                             
+                                               
+                                                    
                                 <form [formGroup]=registerForm class="container">
                                         <div class="form-group row">
                                                 <h5>Who are you??</h5>
@@ -60,6 +61,7 @@
                                                 </div>
                                         </div>
                                 </form>
+                             
                         </div>
                         <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary contnueButton" (click)="submitUserRole(registerForm.value.roletype)">Continue</button>
@@ -72,14 +74,22 @@
 <div *ngIf="userModal" class="modal fade show" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
         aria-hidden="true" style="display:block">
 
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered mapModal" role="document">
 
                 <div class="modal-content">
                         <div class="modal-header">
                                 <h5 class="modal-title " id="exampleModalLongTitle">Please Complete this Form</h5>
                         </div>
 
-                        <div class="modal-body">
+                        <div class="modal-body row">
+                                        <div class="col-lg-4 col-sm-12 col-md-4 col-xs-12">
+                                                        <agm-map [latitude]="lat" [longitude]="lng">
+                                                                <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                                                        </agm-map>
+                                                        <span ><strong>Latitude : </strong>  {{lat}}</span><br>
+                                                        <span ><strong>Longitude : </strong>  {{lng}}</span>
+                                                </div>
+                                                <div class="col-lg-8 col-sm-12 col-md-8 col-xs-12">
                                 <form [formGroup]="userInfoForm">
                                         <div class="form-row">
                                                 <div class="form-group col-md-6">
@@ -147,6 +157,7 @@
                                                 <button type="button" class="btn btn-secondary contnueButton" (click)="submitUserForm(userInfoForm.value)">Submit</button>
                                         </div>
                                 </form>
+                                </div>
                         </div>
                 </div>
 
@@ -162,7 +173,7 @@
 <div *ngIf="bloodbankmodal" class="modal fade show" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
         aria-hidden="true" style="display:block">
 
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered mapModal" role="document">
 
                 <div class="modal-content">
                         <div class="modal-header">
@@ -170,7 +181,15 @@
                                         Details</h5>
                         </div>
 
-                        <div class="modal-body">
+                        <div class="modal-body row" >
+                                        <div class="col-lg-4 col-sm-12 col-md-4 col-xs-12">
+                                                        <agm-map [latitude]="lat" [longitude]="lng">
+                                                                <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                                                        </agm-map>
+                                                        <span ><strong>Latitude : </strong>  {{lat}}</span><br>
+                                                        <span ><strong>Longitude : </strong>  {{lng}}</span>
+                                                </div>
+                                                <div class="col-lg-8 col-sm-12 col-md-8 col-xs-12">
                                 <form [formGroup]="bloodbankform">
                                         <div class="form-row">
                                                 <div class="form-group col-md-6">
@@ -219,6 +238,8 @@
                                                 <button type="button" class="btn btn-secondary contnueButton" (click)="submitBloodBank(Bloodbankform.value)">Submit</button>
                                         </div>
                                 </form>
+                                </div>
+
                         </div>
                 </div>
 
@@ -229,15 +250,24 @@
 
 <div *ngIf="hospitalModal" class="modal fade show" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
         aria-hidden="true" style="display:block">
+        <div class="modal-dialog modal-dialog-centered mapModal" role="document">
 
-        <div class="modal-dialog modal-dialog-centered" role="document">
-
-                <div class="modal-header">
+                        <div class="modal-content">
+                                <div class="modal-header">
+     
                         <h5 class="modal-title " id="exampleModalLongTitle">Please fill in your Hospital Details</h5>
                 </div>
 
-                <div class="modal-body">
-                        <form [formGroup]="Hospitalform">
+                <div class="modal-body row">
+                        <div class="col-lg-4 col-sm-12 col-md-4 col-xs-12">
+                                        <agm-map [latitude]="lat" [longitude]="lng">
+                                                <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                                        </agm-map>
+                                        <span ><strong>Latitude : </strong>  {{lat}}</span><br>
+                                        <span ><strong>Longitude : </strong>  {{lng}}</span>
+                                </div>
+                                <div class="col-lg-8 col-sm-12 col-md-8 col-xs-12">
+                        <form [formGroup]="hospitalform">
                                 <div class="form-row">
                                         <div class="form-group col-md-6">
                                                 <label for="inputEmail4">Email</label>
@@ -286,6 +316,8 @@
                                         <button type="button" class="btn btn-secondary contnueButton" (click)="submitHospital(Hospitalform.value)">Submit</button>
                                 </div>
                         </form>
+                        </div>
+                        </div>
                 </div>
         </div>
 
