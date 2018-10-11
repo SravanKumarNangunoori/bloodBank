@@ -1,7 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, NgZone } from '@angular/core';
 import { AuthService, GoogleLoginProvider } from 'angular-6-social-login';
 import { RestClientService } from '../rest.client.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { } from '@types/googlemaps';
+
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
@@ -19,10 +21,20 @@ export class SigninComponent implements OnInit {
   userModal: boolean;
   hospitalModal: boolean;
   bloodbankmodal: boolean;
+  lat: number = 0;
+  lng: number = 0;
+  geocoder: any;
+  
+  constructor(private formBuilder: FormBuilder,
+    private socialAuthService: AuthService,
+    private restclient: RestClientService
+  
+    ) {
 
-  constructor(private formBuilder: FormBuilder, private socialAuthService: AuthService, private restclient: RestClientService) { }
+    }
 
   ngOnInit() {
+    
     this.registerForm = this.formBuilder.group({
       roletype: ['', Validators.required],
     });
@@ -61,8 +73,8 @@ export class SigninComponent implements OnInit {
       zip: ['', Validators.required],
 
     });
-
-    this.roleModal = false;
+    this.getLocationOfUser();
+    this.roleModal = true;
     this.userModal = false;
     this.hospitalModal = false;
     this.bloodbankmodal = false;
@@ -80,42 +92,42 @@ export class SigninComponent implements OnInit {
         console.log(" sign in data : ", userData);
         this.user = userData;
         console.log(userData);
-        if(this.user.email!=null){
+        if (this.user.email != null) {
           this.restclient.get('/api/registeredUsers').subscribe(
-            (result)=>{
-            registeredUser=result;
-            
-        this.validateUser(registeredUser);
-            },(error)=>{
+            (result) => {
+              registeredUser = result;
+
+              this.validateUser(registeredUser);
+            }, (error) => {
               console.log(error);
             });
         }
       }
     );
-    
-    }
-  
 
-  validateUser(registeredUser){
+  }
+
+
+  validateUser(registeredUser) {
     registeredUser.forEach(element => {
-      if(element.email==this.user.email){
+      if (element.email == this.user.email) {
         this.routeUser(element);
       }
-    });  
-    
+    });
+
     this.openRoleModal();
   }
 
-  routeUser(element){
+  routeUser(element) {
     console.log(element);
   }
 
- 
+
 
   submitUserRole(roletype) {
-    console.log(this.user, roletype);    
-    this.restclient.post('/api/registerUser',{"email":this.user.email,"roletype":roletype}).subscribe(
-      (result)=>{
+    console.log(this.user, roletype);
+    this.restclient.post('/api/registerUser', { "email": this.user.email, "roletype": roletype }).subscribe(
+      (result) => {
         console.log("userdata posted");
         if (roletype == 'hospitalManager') {
           this.closeRoleModal();
@@ -125,7 +137,7 @@ export class SigninComponent implements OnInit {
           this.closeRoleModal();
           this.bloodbankform.controls['email'].setValue(this.user.email);
           this.openBloodBankModal();
-    
+
         } else {
           this.closeRoleModal();
           this.userInfoForm.controls['email'].setValue(this.user.email);
@@ -133,20 +145,20 @@ export class SigninComponent implements OnInit {
           this.openUserModal();
         }
       },
-      (error)=>{
+      (error) => {
         console.log(error);
       });
 
-    
-    
+
+
 
   }
-  submitUserForm(userform){
+  submitUserForm(userform) {
     console.log(userform);
-    this.restclient.post('/api/postuser',userform).subscribe(
+    this.restclient.post('/api/postuser', userform).subscribe(
       (result) => {
         this.closeUserModal();
-        this.routeUser({"email":this.user.email,"roletype":"commonUser"})
+        this.routeUser({ "email": this.user.email, "roletype": "commonUser" })
       }, (error) => {
         console.log(error)
       }
@@ -154,24 +166,34 @@ export class SigninComponent implements OnInit {
 
   }
 
-  submitHositalform(hospitalform){
+  submitHositalform(hospitalform:any[]) {
     console.log(hospitalform);
-    this.restclient.post('/api/posthospital',hospitalform).subscribe(
+    let location={
+      latitude:this.lat,
+      longitude:this.lng
+    }
+    hospitalform.push({"location":location});
+    this.restclient.post('/api/posthospital', hospitalform).subscribe(
       (result) => {
         this.closeHospitalModal();
-        this.routeUser({"email":this.user.email,"roletype":"hospitalManager"})
+        this.routeUser({ "email": this.user.email, "roletype": "hospitalManager" })
       }, (error) => {
         console.log(error)
       }
     )
   }
 
-  submitBloodBankform(bloodBankform){
+  submitBloodBankform(bloodBankform:any[]) {
     console.log(bloodBankform);
-    this.restclient.post('/api/postbloodbank',bloodBankform).subscribe(
+    let location={
+      latitude:this.lat,
+      longitude:this.lng
+    }
+   bloodBankform.push({"location":location});
+    this.restclient.post('/api/postbloodbank', bloodBankform).subscribe(
       (result) => {
         this.closeBloodBankModal()
-        this.routeUser({"email":this.user.email,"roletype":"bloodBankManager"})
+        this.routeUser({ "email": this.user.email, "roletype": "bloodBankManager" })
       }, (error) => {
         console.log(error)
       }
@@ -204,5 +226,21 @@ export class SigninComponent implements OnInit {
   }
   closeBloodBankModal() {
     this.bloodbankmodal = false;
+  }
+
+  getLocationOfUser(){
+    if (navigator.geolocation) {
+      setTimeout('',1000);
+          navigator.geolocation.getCurrentPosition((geoSuccess) => {
+         console.log(geoSuccess);
+         this.lat=geoSuccess.coords.latitude;
+         this.lng=geoSuccess.coords.longitude;
+          },
+          (geoError)=>{
+             console.log(geoError);
+          });
+        } else {
+          alert("Geolocation is not supported by this browser.");
+        }
   }
 }

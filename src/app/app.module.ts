@@ -1,13 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  SocialLoginModule,
-  AuthServiceConfig,
-  GoogleLoginProvider,
-} from "angular-6-social-login";
+import { SocialLoginModule,  AuthServiceConfig,  GoogleLoginProvider,} from "angular-6-social-login";
 import { HttpClientModule } from '@angular/common/http'; 
 import {FormsModule,ReactiveFormsModule } from '@angular/forms';
+import { AgmCoreModule } from '@agm/core';
 
 import { AppComponent } from './app.component';
 import { BloodBankComponent } from './blood-bank/blood-bank.component';
@@ -58,9 +54,9 @@ export function getAuthServiceConfigs() {
     SigninComponent    
   ],
   imports: [
-    BrowserModule,SocialLoginModule,HttpClientModule,FormsModule,ReactiveFormsModule,
-    NgbModule.forRoot(),
-    RouterModule.forRoot(routes)
+    BrowserModule,SocialLoginModule,HttpClientModule,FormsModule,ReactiveFormsModule,AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB8UDPylOPQX2dHwac4aAgCSwG3Cy0luqs'
+    }), RouterModule.forRoot(routes),
   ],
   providers: [  {
     provide: AuthServiceConfig,

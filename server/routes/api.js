@@ -12,7 +12,7 @@ const bloodbankdb = mongojs('mongodb://team6user:team6password@ds125673.mlab.com
 
 
 const registeredUserdb = mongojs('mongodb://team6user:team6password@ds125673.mlab.com:25673/bloodbank').registeredUsers ;
-
+const tempUser = mongojs('mongodb://team6user:team6password@ds125673.mlab.com:25673/bloodbank').hospitalTemp  ;
 
 
 
@@ -74,7 +74,7 @@ router.get('/registeredUsers', (req, res) => {
     }); 
 });
 router.post('/posthospital',(req,res)=>{
-  hospitaldb.insert(req.body,function(err, doc) {
+  tempUser.insert(req.body,function(err, doc) {
            console.log(doc);
            console.log("Successfully Added in hospital database")
            if (err) throw err;

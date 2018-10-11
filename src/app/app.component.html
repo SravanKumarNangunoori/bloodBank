@@ -1,30 +1,32 @@
 <div class="container-fluid ">
-  <div class="container">
-  <nav class="navbar navbar-expand-md navbar-dark">
-    <a class="navbar-brand abs" href="#">Blood Bank Manager</a>
+  <div >
+
+  <nav class="navbar navbar-expand-md navbar-dark mynavbar">
+    <a class="navbar-brand abs app-nav-link-color" href="#">Blood Bank Manager</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="navbar-collapse collapse" id="collapsingNavbar">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item ">
-                <a class="nav-link  app-nav-bar-link" routerLink="/signin">Login</a>
+                <a class="nav-link  app-nav-bar-link app-nav-link-color" routerLink="/signin">Login</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link app-nav-bar-link" routerLink="/bloodBank">Blood Bank</a>
+                <a class="nav-link app-nav-bar-link app-nav-link-color" routerLink="/bloodBank">Blood Bank</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link app-nav-bar-link" routerLink="/hospital">Hospital</a>
+                <a class="nav-link app-nav-bar-link app-nav-link-color" routerLink="/hospital">Hospital</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link app-nav-bar-link" routerLink="/user">User </a>
+                <a class="nav-link app-nav-bar-link app-nav-link-color" routerLink="/user">User </a>
             </li>
         </ul>
     </div>
 </nav>
 </div>
 
-<div class="container">
+
+<div class="container-fluid app-route">
   
   <router-outlet></router-outlet>
 </div>
