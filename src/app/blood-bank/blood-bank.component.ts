@@ -28,10 +28,11 @@ export class BloodBankComponent implements OnInit {
     this.mockData = { "Name": "Albany blood bank","Address":"Albany","Apos":30,"Bpos":20,"ABpos":40,"Opos":25,"Aminus":30,"Bminus":20,"ABminus":40,"Ominus":25}
     this.showForm = false;
     this.showbloodbankDetails = false;
+    this.showbloodbankdata();
   }
 
   selectChange(event:any){
-    this.showbloodbank(event.target.value);
+   // this.showbloodbank(event.target.value);
   }
   selectDetailChange(event:any){
     for(var i = 0; i < this.bloodbanks.length; i++){
@@ -42,10 +43,11 @@ export class BloodBankComponent implements OnInit {
     }
   }
 
-  showbloodbank(id:any){
+  showbloodbank(){
     this.showbloodbankDetails = false;
+    let email = (localStorage.getItem('userid')); 
     for(var i = 0; i < this.bloodbanks.length; i++){
-      if(this.bloodbanks[i]._id == id){
+      if(this.bloodbanks[i].email == email){
         this.bloodbank = this.bloodbanks[i];
         console.log("in showbloodbank")
         //console.log(this.bloodbank);
@@ -55,9 +57,11 @@ export class BloodBankComponent implements OnInit {
   }
 // Update bloodbank data
 onFormSubmit(event){
-  var postadata = this.serializeForm(event.target);
+  var postadata = this.bloodbank //this.serializeForm(event.target);
   this.restclient.post('api/updatebloodbank', postadata).subscribe((result)=>{
-    console.log(result);
+    if(result){
+      this.showbloodbankdata();
+    }
   }, (error)=>{
     console.log(error);
   })
@@ -85,7 +89,7 @@ getbloodbankdata(){
     (result) => {
       
       that.bloodbanks = result;
-      that.showbloodbank(result[0]._id);
+      that.showbloodbank();
       that.showForm = true;
       that.showbloodbankDetails = false;
     }, (error) => {
@@ -93,7 +97,17 @@ getbloodbankdata(){
     }
   )
 }
-
+getCurrentLoggedInUser() {
+  let email = (localStorage.getItem('userid')); 
+  for (var i = 0; i < this.bloodbanks.length; i++) {
+  if (this.bloodbanks[i].email == email) {
+  this.bloodbank = this.bloodbanks[i]; 
+  this.activebloodbankId = this.bloodbanks[i]._id; 
+  console.log(this.bloodbank); 
+  return; 
+  }
+  }
+  }
 showbloodbankdata(){
   var that = this;
   this.restclient.get('api/bloodbankcollection').subscribe(
@@ -102,7 +116,7 @@ showbloodbankdata(){
       that.bloodbanks = result;
       that.showbloodbankDetails = true;
       that.showForm = false;
-      that.activebloodbankId = result[0]._id;
+      that.getCurrentLoggedInUser(); 
       console.log(result[0]._id)
     }, (error) => {
       console.log(error);
