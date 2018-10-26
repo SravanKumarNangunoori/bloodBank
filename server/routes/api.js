@@ -80,7 +80,7 @@ router.get('/registeredUsers', (req, res) => {
     }); 
 });
 router.post('/posthospital',(req,res)=>{
-  tempUser.insert(req.body,function(err, doc) {
+  hospitaldb.insert(req.body,function(err, doc) {
            console.log(doc);
            console.log("Successfully Added in hospital database")
            if (err) throw err;
@@ -103,53 +103,19 @@ router.post('/postEmergency',(req,docs)=>{
 
 
 router.post('/updatehospital', (req,res)=>{
-  var id = req.body.id;
-  var name = req.body.name;
-  var address = req.body.address;
-  var apos = req.body.apos;
-  var aminus = req.body.aminus;
-  var bpos = req.body.bpos;
-  var bminus = req.body.bminus;
-  var abpos = req.body.abpos;
-  var abminus = req.body.abminus;
-  var opos = req.body.opos;
-  var ominus = req.body.ominus;
-  console.log(req.body);
-  hospitaldb.findAndModify({
-    query: {_id: mongojs.ObjectId(id)},
-    update: { $set: {
-      Name:name,
-      Address:address,
-      Apos:apos,
-      Aminus:aminus,
-      Bpos:bpos,
-      Bminus:bminus,
-      ABpos:abpos,
-      ABminus:abminus,
-      Opos:opos,
-      Ominus:ominus
-    } }
-  }, function(err, doc){
-    if(err) throw err;
-    console.log(doc);
-    res.send({'status': 'succes'});
-  });
-  return;
-  hospitaldb.update({_id:mongojs.ObjectId(id)},{ $set:{
-      Name:name,
-      Address:address,
-      Apos:apos,
-      Aminus:aminus,
-      Bpos:bpos,
-      Bminus:bminus,
-      ABpos:abpos,
-      ABminus:abminus,
-      Opos:opos,
-      Ominus:ominus
-    }}, (err, a)=>{
-      if(err) throw err;
-      res.send({status:'success'});
-    });
+  var id = req.body._id;
+
+ 
+  hospitaldb.remove( { "_id" : mongojs.ObjectId(id) });
+  let newObj =req.body;
+  delete(newObj._id);
+  hospitaldb.insert(newObj,function(err, doc) {
+   
+    if (err) throw err;
+    res.send(doc);
+
+ } )
+  
 });
 
 router.post('/deleteall', (req, res)=>{
@@ -158,63 +124,31 @@ router.post('/deleteall', (req, res)=>{
 });
 
 router.post('/postbloodbank',(req,res)=>{
-  bloodbankTemp.insert(req.body,function(err, doc) {
+  bloodbankdb.insert(req.body,function(err, doc) {
            console.log(doc);
            console.log("Successfully Added in bloodbank")
            if (err) throw err;
            res.send(doc);
 });
 
-router.post('/updatebloodbank', (req,res)=>{
-  var id = req.body.id;
-  var name = req.body.name;
-  var address = req.body.address;
-  var apos = req.body.apos;
-  var aminus = req.body.aminus;
-  var bpos = req.body.bpos;
-  var bminus = req.body.bminus;
-  var abpos = req.body.abpos;
-  var abminus = req.body.abminus;
-  var opos = req.body.opos;
-  var ominus = req.body.ominus;
-  console.log(req.body);
-  bloodbankdb.findAndModify({
-    query: {_id: mongojs.ObjectId(id)},
-    update: { $set: {
-      Name:name,
-      Address:address,
-      Apos:apos,
-      Aminus:aminus,
-      Bpos:bpos,
-      Bminus:bminus,
-      ABpos:abpos,
-      ABminus:abminus,
-      Opos:opos,
-      Ominus:ominus
-    } }
-  }, function(err, doc){
-    if(err) throw err;
-    console.log(doc);
-    res.send({'status': 'successss'});
-  });
-  return;
-  bloodbankdb.update({_id:mongojs.ObjectId(id)},{ $set:{
-      Name:name,
-      Address:address,
-      Apos:apos,
-      Aminus:aminus,
-      Bpos:bpos,
-      Bminus:bminus,
-      ABpos:abpos,
-      ABminus:abminus,
-      Opos:opos,
-      Ominus:ominus
-    }}, (err, a)=>{
-      if(err) throw err;
-      res.send({status:'success'});
-    });
-});
 
+});
+router.post('/updatebloodbank', (req,res)=>{
+    var id = req.body._id;
+    //bloodbankdb.remove( { "_id" : mongojs.ObjectId(id) });
+    bloodbankdb.remove( { "email" : req.body.email });
+   setTimeout(()=>{
+    let newObj =req.body;
+    delete(newObj._id);
+    bloodbankdb.insert(newObj,function(err, doc) {
+     
+      if (err) throw err;
+      res.send(doc);
+  
+   } )
+   }, 4000)
+   
+    
 });
 
 
