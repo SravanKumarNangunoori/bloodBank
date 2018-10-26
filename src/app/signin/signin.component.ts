@@ -6,6 +6,7 @@ import { } from '@types/googlemaps';
 import {Router} from "@angular/router";
 import { DataShareService } from '../data.share.service';
 
+const BloodGroup ={ "Apos":30,"Bpos":20,"ABpos":40,"Opos":25,"Aminus":30,"Bminus":20,"ABminus":40,"Ominus":25}
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
@@ -96,6 +97,8 @@ export class SigninComponent implements OnInit {
         console.log(" sign in data : ", userData);
         this.user = userData;
         console.log(userData);
+        localStorage.setItem('userid', this.user.email);
+        this.restclient.setloginStatus(true)
         if (this.user.email != null) {
           this.restclient.get('/api/registeredUsers').subscribe(
             (result) => {
@@ -115,7 +118,7 @@ export class SigninComponent implements OnInit {
   validateUser(registeredUser) {
     registeredUser.forEach(element => {
       if (element.email == this.user.email) {
-        this.routeUser(element);
+       this.routeUser(element);
       }
     });
 
@@ -180,16 +183,27 @@ this.router.navigate(['/hospital']);
 
   }
 
-  submitHositalform(hospitalform:any[]) {
-    console.log(hospitalform);
+  addNewPropertyToData(dataObj){
+    let result =Object.assign({},dataObj);
+    Object.keys(BloodGroup).map(x=>{
+        result[x] =0;
+    })
+
+    return result;
+  }
+  submitHositalform(hospitalform:any) {
+   
     let location={
       latitude:this.lat,
       longitude:this.lng
     }
-    hospitalform.push({"location":location});
-    this.restclient.post('/api/posthospital', hospitalform).subscribe(
+    
+    //hospitalform.push({"location":location});
+    hospitalform["location"]=location;
+    this.restclient.post('/api/posthospital', this.addNewPropertyToData(hospitalform)).subscribe(
       (result) => {
         this.closeHospitalModal();
+     
         this.routeUser({ "email": this.user.email, "roletype": "hospitalManager" })
       }, (error) => {
         console.log(error)
@@ -197,14 +211,15 @@ this.router.navigate(['/hospital']);
     )
   }
 
-  submitBloodBankform(bloodBankform:any[]) {
+  submitBloodBankform(bloodBankform:any) {
     console.log(bloodBankform);
     let location={
       latitude:this.lat,
       longitude:this.lng
     }
-   bloodBankform.push({"location":location});
-    this.restclient.post('/api/postbloodbank', bloodBankform).subscribe(
+   //bloodBankform.push({"location":location});
+   bloodBankform["location"] =location;
+    this.restclient.post('/api/postbloodbank', this.addNewPropertyToData(bloodBankform)).subscribe(
       (result) => {
         this.closeBloodBankModal()
         this.routeUser({ "email": this.user.email, "roletype": "bloodBankManager" })
