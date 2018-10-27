@@ -1,39 +1,37 @@
-import {Component }from '@angular/core'; 
-import {Router}from "@angular/router"; 
-import {RestClientService}from './rest.client.service'; 
-@Component( {
-selector:'app-root', 
-templateUrl:'./app.component.html', 
-styleUrls:['./app.component.scss']
-})
-export class AppComponent {
-title = 'app'; 
-ishowLogin = true; 
-ishowlogout = false; 
-constructor(private restclient:RestClientService, 
-private router:Router) {
+<div class="container-fluid ">
+  <div >
 
-}
+  <nav class="navbar navbar-expand-md navbar-dark mynavbar">
+    <a class="navbar-brand abs app-nav-link-color" href="#">Blood Bank Manager</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse" id="collapsingNavbar">
+        <ul class="navbar-nav ml-auto">
+            <li *ngIf="ishowLogin" class="nav-item ">
+                <a class="nav-link  app-nav-bar-link app-nav-link-color" routerLink="/signin">Login</a>
+            </li>
+            <li *ngIf="ishowlogout" class="nav-item ">
+                    <a  class="nav-link  app-nav-bar-link app-nav-link-color pointer" (click)="logout()">Logout</a>
+                </li>
+            <li class="nav-item">
+                <a class="nav-link app-nav-bar-link app-nav-link-color" routerLink="/bloodBank">Blood Bank</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link app-nav-bar-link app-nav-link-color" routerLink="/hospital">Hospital</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link app-nav-bar-link app-nav-link-color" routerLink="/user">User </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+</div>
 
 
-ngOnInit() {
-let email = (localStorage.getItem('userid')); 
+<div class="container-fluid app-route">
+  
+  <router-outlet></router-outlet>
+</div>
 
-this.restclient.getloginStatus().subscribe(x =>  {
-  if (x) {
-    this.ishowLogin = false; 
-    this.ishowlogout = true; 
-    }
-})
-}
-
-
-logout() {
-  this.restclient.setloginStatus(false)
-this.ishowLogin = true; 
-this.ishowlogout = false; 
-localStorage.removeItem('userid'); 
-
-this.router.navigate(['/']); 
-}
-}
+</div>
