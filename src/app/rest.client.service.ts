@@ -1,13 +1,12 @@
-
 import { Injectable, isDevMode } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, Subject } from 'rxjs/Rx';
 @Injectable()
 export class RestClientService {
 
   private headers;
-
+  logginStatus = new Subject<any>();
   constructor(private _http: HttpClient) {
     const requestHeaders = {
       'Content-Type': 'application/json',
@@ -17,7 +16,12 @@ export class RestClientService {
   }
 
   
-
+  getloginStatus(): Observable<any> {
+    return (this.logginStatus);
+}
+setloginStatus(status) {
+    this.logginStatus.next(status);
+}
   post<T>(url: string, requestData?: any, responsetype?: any): Observable<T> {
 
     return this._http.post<T>(url, requestData, { headers: this.headers, responseType: responsetype });
