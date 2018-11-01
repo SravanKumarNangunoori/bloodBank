@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RestClientService } from '../rest.client.service';
 import { DataShareService } from '../data.share.service';
-import { FormGroup ,FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-user',
@@ -13,10 +13,10 @@ export class UserComponent implements OnInit {
   mockData: any;
   userProfiles: {};
   currentUserProfile: any;
-  relativeModal:boolean;
-  sameBloodModal:boolean;
-  relativeForm:FormGroup;
-  emergencyForm:FormGroup;
+  relativeModal: boolean;
+  sameBloodModal: boolean;
+  relativeForm: FormGroup;
+  sameBloodForm: FormGroup;
 
   constructor(private restclient: RestClientService,
     private dataservice: DataShareService,
@@ -33,7 +33,7 @@ export class UserComponent implements OnInit {
       age: ['', Validators.required],
 
     });
-    this.emergencyForm = this.formBuilder.group({
+    this.sameBloodForm = this.formBuilder.group({
       email: ['', Validators.required],
       name: ['', Validators.required],
       phonenumber: ['', Validators.required],
@@ -46,11 +46,10 @@ export class UserComponent implements OnInit {
 
   ///get user data
   getUserprofile() {
-
     this.restclient.get('/api/usercollection').subscribe(
       (result) => {
         this.userProfiles = result;
-        console.log(this.userProfiles);
+        // console.log(this.userProfiles);
         this.getCurrentUserProfie();
       }, (error) => {
         console.log(error);
@@ -63,55 +62,50 @@ export class UserComponent implements OnInit {
     usrprofiles.forEach(element => {
       if (this.userData.email == element.email) {
         this.currentUserProfile = element;
-        console.log(this, this.currentUserProfile);
+        console.log("current user profile", this.currentUserProfile);
       }
 
     });
   }
   //post user Data
-  postUserData() {
-    this.restclient.post('/api/usercollection', this.mockData).subscribe(
-      (result) => {
-        console.log("Sucess");
-      }, (error) => {
-        console.log(error)
+  // postUserData() {
+  //   this.restclient.post('/api/usercollection', this.mockData).subscribe(
+  //     (result) => {
+  //       console.log("Sucess");
+  //     }, (error) => {
+  //       console.log(error)
+  //     }
+  //   )
+  // }
+
+  updateUserData(){
+    this.restclient.post('api/updateUser', this.currentUserProfile).subscribe((result)=>{
+      if(result){
+        console.log(result);
+        this.getUserprofile();
       }
-    )
+    }, (error)=>{
+      console.log(error);
+    })
   }
 
-  socialSignIn() {
-    this.restclient.post('api/socialSignIn()').subscribe(
-      (result) => {
-        console.log("Sucess");
-      }, (error) => {
-        console.log(error)
-      }
-    )
+  submitSameBloodForm(sameBloodForm) {
+    console.log(sameBloodForm);
+    this.currentUserProfile.sameblood.push(sameBloodForm);
+    this.updateUserData();
+    this.sameBloodModal = false;
   }
-  submitEmergencyForm(emergencyForm){
-console.log(emergencyForm);
-
-// let details={
-//   "email":this.currentUserProfile.email,
-//   "emergencyContact":emergencyForm
-// }
-// this.restclient.post('/api/postEmergency',details).subscribe(
-//   (result)=>{
-//     this.relativeModal=false;
-//     this.getUserprofile();
-//   },(error)=>{
-//     console.log(error);
-//   }
-// )
-  }
-  submitrelativeForm(relativeForm){
+  submitrelativeForm(relativeForm) {
     console.log(relativeForm);
+    this.currentUserProfile.relatives.push(relativeForm);
+    this.updateUserData();
+    this.relativeModal = false;
   }
-  
-OpenEmergencyModal(){
-  this.relativeModal=true;
-}
-OpenSameBLoodModal(){
-  this.sameBloodModal=true;
-}
+
+  OpenRelativeModal() {
+    this.relativeModal = true;
+  }
+  OpenSameBLoodModal() {
+    this.sameBloodModal = true;
+  }
 }

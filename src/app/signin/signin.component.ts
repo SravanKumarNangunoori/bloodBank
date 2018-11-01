@@ -171,6 +171,8 @@ this.router.navigate(['/hospital']);
   }
   submitUserForm(userform) {
     console.log(userform);
+    userform["relatives"]=[];
+    userform["sameblood"]=[];
     this.restclient.post('/api/postuser', userform).subscribe(
       (result) => {
         this.closeUserModal();
