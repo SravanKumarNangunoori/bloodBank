@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\blood-bank",
+    "\\src\\app\\hospital"
+  ],
+  "SelectedNode": "\\src\\app\\blood-bank\\blood-bank.component.html",
+  "PreviewInSolutionExplorer": false
+}
