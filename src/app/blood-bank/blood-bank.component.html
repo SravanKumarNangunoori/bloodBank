@@ -1,58 +1,99 @@
-<h1>Welcome Blood Bank Manager</h1>
-
-
 <div class="row">
     <div class="col-3">
 
-
         <button *ngIf='true' class="btn btn mt-2" id="button2" (click)=getbloodbankdata()>Edit data</button>
-        <!--change-3 seting a background image-start here-->
+        <button class="btn btn-secondary mt-2" (click)="OpenEmergencyModal1()">view requests</button>
+        <div *ngIf="relativeModal" class="modal fade show" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" style="display:block">
+
+            <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
+
+                <div class="modal-content">
+
+
+                    <div class="modal-body container">
+
+
+                        <div class="row">
+                            <div class="col">
+
+                                <h3 class="text-center">Requests from hospitals</h3>
+
+                                <table class="table">
+                                    <thead class="thead-dark">
+
+                                        <th>BloodGroup</th>
+                                        <th>Request-type</th>
+                                        <th>Quantity</th>
+                                        <th>Component-Type</th>
+                                        <th>Hospital Name</th>
+                                        <th>Address</th>
+
+                                    </thead>
+                                    <tr *ngFor="let i of requestlist">
+
+                                        <td *ngIf="i.bb == activebloodbankname">{{i.bg}}</td>
+                                        <td *ngIf="i.bb == activebloodbankname">{{i.rt}}</td>
+                                        <td *ngIf="i.bb == activebloodbankname">{{i.qt}}</td>
+                                        <td *ngIf="i.bb == activebloodbankname">{{i.ct}}</td>
+                                        <td *ngIf="i.bb == activebloodbankname">{{i.name}}</td>
+                                        <td *ngIf="i.bb == activebloodbankname">{{i.address}}</td>
+
+                                    </tr>
+                                </table>
+
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" (click)="ref()">Close</button>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+
     </div>
-
     <div class="col-5"></div>
-
     <div class="col-4    mt-2 ">
         <div *ngIf="showbloodbank" class="mt-2">
             <div *ngFor="let item of bloodbanks">
                 <div *ngIf="item._id == activebloodbankId">
-                    <!-- change-7 change the parameters of blood group to middle starts here -->
 
                     <p class="jumbotron pl-1 pt-1 pb-1 float-right">
                         <b>Name:</b> {{ item.name }}
                         <br>
-                        <b>Address:</b> {{ item.address }}</p>
+                        <b>Address:</b> {{ item.address }}
+                    </p>
                 </div>
-                <!-- <div class="col-1"></div> -->
+
             </div>
         </div>
     </div>
 </div>
 
-<!--change-1 moving name and address to right side-ends here-->
-
-<!-- <button class="btn new" id = "button1" (click)=showbloodbankdata()>Retreive Data</button> -->
-
-<!--change-3 seting a background image-start here-->
-
-
-<!--change-1 moving name and address to right side-ends here-->
-
-<!-- <button class="btn old" id = "button3" (click)=postbloodbankdata()>Add data</button>
-
-             <button class="btn old" id = "button4" (click)=deleteall()>delete all</button> -->
-
-<!-- <select name="select_bloodbank" *ngIf="showForm" (change)="selectChange($event)">
-                    <option *ngFor="let item of bloodbanks" value="{{item._id}}">{{ item.Name }}</option>
-                </select> -->
-
-
 <form *ngIf="showForm" (submit)="$event.preventDefault(); onFormSubmit($event)">
-    <!--change-1 color of button changes -start here-->
 
 
     <div class="col-6 offset-3  jumbotron pt-3 mt-2">
-
-
 
         <div class="form-group row">
             <label for="Apos" class="col-sm-2 col-form-label">Apos</label>
@@ -103,24 +144,16 @@
             </div>
         </div>
 
-
         <button (click)=new()>Update</button>
     </div>
 
 </form>
 
 
-
-<!-- <select name="view_bloodbank" *ngIf="showbloodbankDetails" (change)="selectDetailChange($event)">
-                    <option *ngFor="let item of bloodbanks" value="{{item._id}}">{{ item.Name }}</option>
-                </select> -->
 <form *ngIf="shwForm" (submit)="$event.preventDefault(); onFormSubmit($event)">
-    <!--change-1 color of button changes -start here-->
 
 
     <div class="col-6 offset-3  jumbotron pt-3 mt-2">
-
-
 
         <div class="form-group row">
             <label for="Apos" class="col-sm-2 col-form-label">Apos</label>
@@ -170,7 +203,6 @@
                 <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="bloodbank.Ominus" class="form-control" id="Ominus" placeholder="Ominus" readonly>
             </div>
         </div>
-
     </div>
 
 </form>

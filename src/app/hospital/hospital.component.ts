@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { RestClientService } from '../rest.client.service';
 
 import { } from '@types/googlemaps';
+import { HttpHeaderResponse } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { HttpModule, JsonpModule } from '@angular/http';
 
 
 @Component({
@@ -27,6 +31,8 @@ export class HospitalComponent implements OnInit {
     sho: boolean = true;
     shwForm: boolean;
     temp: any;
+    relativeModal:boolean;
+    bloodbanklist:any;
 
     ngOnInit() {
         //this.mockData = { "Name": "Albany HOSPITAL","Address":"Albany","Apos":30,"Bpos":20,"ABpos":40,"Opos":25,"Aminus":30,"Bminus":20,"ABminus":40,"Ominus":25}
@@ -71,6 +77,13 @@ export class HospitalComponent implements OnInit {
     // selectChange(event: any) {
     //     //this.showHospital(event.target.value);
     // }
+    //     this.showHospitalDetails = false;
+    //     this.showhospitaldata();
+    // }
+
+    selectChange(event: any) {
+        //this.showHospital(event.target.value);
+    }
     selectDetailChange(event: any) {
         for (var i = 0; i < this.hospitals.length; i++) {
             if (this.hospitals[i]._id == event.target.value) {
@@ -89,6 +102,37 @@ export class HospitalComponent implements OnInit {
             }
         )
     }
+    OpenEmergencyModal()
+    {
+    this.relativeModal=true;
+    this.restclient.get('api/hospital').subscribe((result)=>{
+        this.bloodbanklist=result;
+        console.log("success")
+        
+      }, (error)=>{
+        console.log(error);
+      })
+    
+    }
+    
+    onFormSubmitTobb(event)
+    {
+    console.log(event);
+    this.restclient.post('api/hospital', event).subscribe((result)=>{
+        
+        console.log("success")
+        
+      }, (error)=>{
+        console.log(error);
+      })
+    }
+    ref()
+{
+    this.relativeModal=false;  
+}
+
+
+
     showHospital() {
         this.showHospitalDetails = false;
         let email = (localStorage.getItem('userid'));

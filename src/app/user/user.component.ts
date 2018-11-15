@@ -83,13 +83,13 @@ export class UserComponent implements OnInit {
   //   )
   // }
 
-  updateUserData() {
-    this.restclient.post('/api/updateUser', this.currentUserProfile).subscribe((result) => {
-      if (result) {
+  updateUserData(){
+    this.restclient.post('api/updateUser', this.currentUserProfile).subscribe((result)=>{
+      if(result){
         console.log(result);
         this.getUserprofile();
       }
-    }, (error) => {
+    }, (error)=>{
       console.log(error);
     })
   }
