@@ -14,13 +14,22 @@ const bloodbankdb = mongojs('mongodb://team6user:team6password@ds125673.mlab.com
 const registeredUserdb = mongojs('mongodb://team6user:team6password@ds125673.mlab.com:25673/bloodbank').registeredUsers;
 // const tempUser = mongojs('mongodb://team6user:team6password@ds125673.mlab.com:25673/bloodbank').hospitalTemp  ;
 // const bloodbankTemp = mongojs('mongodb://team6user:team6password@ds125673.mlab.com:25673/bloodbank').bloodBanktemp  ;
-
+const notification = mongojs('mongodb://team6user:team6password@ds125673.mlab.com:25673/bloodbank').notifications;
+const emergency1 = mongojs('mongodb://team6user:team6password@ds125673.mlab.com:25673/bloodbank').emergency1;
 router.get('/getNotification', (req, res) => {
     notification.find(function(err, docs) {
         res.send(docs);
     })
 });
 
+router.post('/notify', (req, res) => {
+    notification.insert(req.body, function(err, doc) {
+        console.log(doc);
+        console.log("Successfully added notfication");
+        if (err) throw err;
+        res.send(doc);
+    })
+});
 /* GET api listing. */
 router.get('/', (req, res) => {
     res.send('api works');
@@ -171,5 +180,8 @@ router.post('/updateUser', (req, res) => {
 
 });
 
-
+router.post('/reportHospitalEmergency', (req, res) => {
+    notification.remove({});
+    res.send({ 'status': 'success' });
+});
 module.exports = router;

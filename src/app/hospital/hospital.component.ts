@@ -13,6 +13,7 @@ import { } from '@types/googlemaps';
 export class HospitalComponent implements OnInit {
     showEmergency: boolean;
     emergencyNotification: any;
+    assitedPatients: any;
 
     constructor(private restclient: RestClientService) { }
     mockData: any;
@@ -30,6 +31,7 @@ export class HospitalComponent implements OnInit {
     ngOnInit() {
         //this.mockData = { "Name": "Albany HOSPITAL","Address":"Albany","Apos":30,"Bpos":20,"ABpos":40,"Opos":25,"Aminus":30,"Bminus":20,"ABminus":40,"Ominus":25}
         this.showForm = false;
+        this.assitedPatients=[];
         this.showHospitalDetails = false;
         this.showhospitaldata();
         this.checkNotification();
@@ -77,7 +79,16 @@ export class HospitalComponent implements OnInit {
             }
         }
     }
-
+    reportEmergency(){
+        this.assitedPatients.push(this.emergencyNotification);
+        console.log(this.assitedPatients);
+        this.emergencyNotification=null;
+        this.restclient.post('api/reportHospitalEmergency',{}).subscribe(
+            (result)=>{
+                console.log(result);
+            }
+        )
+    }
     showHospital() {
         this.showHospitalDetails = false;
         let email = (localStorage.getItem('userid'));
