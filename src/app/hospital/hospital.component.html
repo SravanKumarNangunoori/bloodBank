@@ -1,36 +1,19 @@
-<!-- <button class="btn new" id = "button1" (click)=showhospitaldata()>Retreive Data</button> -->
-<!--change-3 seting a background image-start here-->
+
 <body>
-  <!--change-4 color of button changes -start here-->
-  <!-- <button *ngIf='true' class="btn btn mt-2"  id = "button2" style="color: rgb(67, 122, 224);background-color:rgb(179, 228, 247)" (click)=gethospitaldata()>Edit data</button>
-              <div *ngIf="showHospital" class="mt-2">
-                  <div *ngFor="let item of hospitals">
-                      <div *ngIf="item._id == activeHospitalId"> -->
-  <!--name and address changes color and background in jumbotron-starts here-->
-  <!-- <p class="float-right jumbotron  pt-1 pb-1 pl-1 pr-1 " style="color: rgb(67, 122, 224);background-color:rgb(179, 228, 247)"><b>Name:</b> {{ item.name }}
-                              <br/><b>Address:</b> {{ item.address }}</p> -->
-  <!-- </div>
-                              </div>
-                              </div> -->
-  <!--change-4 moving name and address to right side-ends here-->
-  <!-- <button class="btn old" id = "button3" (click)=posthospitaldata()>Add data</button>
-
-           <button class="btn old" id = "button4" (click)=deleteall()>delete all</button> -->
-  <!-- <select name="select_hospital" *ngIf="showForm" (change)="selectChange($event)">
-
-                  <option *ngFor="let item of hospitals" value="{{item._id}}">{{ item.name }}</option>
-              </select> -->
   <div class="row">
     <div class="col-3">
       <div *ngIf="showHospital" align="center">
         <div *ngFor="let item of hospitals">
           <div *ngIf="item._id == activeHospitalId">
-            <!-- change-6 change the parameters of blood group to middle starts here -->
+            
 
             <button *ngIf='true' class="btn btn mt-2" id="button2"
                     (click)=gethospitaldata()>
               Edit data
             </button>
+            
+            <button  *ngIf='true' class="btn btn mt-2" id="button2" (click)="OpenEmergencyModal()">Blood Request</button>
+           
             <div *ngIf="showHospital" class="mt-2">
               <div *ngFor="let item of hospitals">
                 <div *ngIf="item._id == activeHospitalId">
@@ -51,7 +34,7 @@
     </div>
   </div>
   <form *ngIf="showForm" (submit)="$event.preventDefault(); onFormSubmit($event)">
-    <!--change-5 making of edit data in jambotron and color-starts here-->
+    
 
     <div class="col-6 offset-3  jumbotron pt-3 mt-2">
       <div class="form-group row">
@@ -107,11 +90,11 @@
       <button>Update</button>
 
     </div>
-    <!--change-5 making of edit data in jambotron-ends here-->
+   
   </form>
   <div *ngIf="shwForm" class=" col-6 offset-3 jumbotron pt-3 mt-2">
     <form (submit)="$event.preventDefault(); onFormSubmit($event)">
-      <!--change-5 making of edit data in jambotron and color-starts here-->
+     
 
       <div class="form-group row">
         <label for="Apos" class="col-sm-2 col-form-label">Apos</label>
@@ -172,32 +155,122 @@
     </form>
   </div>
 
-  <!-- <select name="view_hospital" *ngIf="showHospitalDetails" (change)="selectDetailChange($event)">
+      <div *ngIf="relativeModal" class="modal fade show" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+      aria-hidden="true" style="display:block">
+
+      <div class="modal-dialog modal-dialog-centered " role="document">
+          <form #ref9="ngForm" (ngSubmit)="onFormSubmitTobb(ref9.value)">
+                            
+              <div class="modal-content">
+                      <div class="modal-header">
+                              <h5 class="modal-title " id="exampleModalLongTitle">Blood Request Form</h5>
+                              <div class="form-group ">
+                                <label>Blood banks</label>
+                                <br>
+                                <select [(ngModel)]="bb" name="bb">
+                                            
+                                             <option selected hidden>select nearest bloodbank</option>
+                                               
+                                             <option *ngFor="let i of bloodbanklist">{{i.name}}</option>
+                                             
+                                             
+                                         </select>
+                         </div>
+                      </div>
+
+                      <div class="modal-body  container">
+
+                                      <div class="row">
+                                          <div class="col-sm-6">
+                                              <div class="form-group ">
+                                                     <label>Blood Group</label>
+                                                              <select [(ngModel)]="bg" name="bg">
+                                                                  <option selected hidden>select your BloodGroup</option>
+                                                                  <option>A+</option>
+                                                                  <option>B+</option>
+                                                                  <option>O+</option>
+                                                                  <option>O-</option>
+                                                                  <option>AB+</option>
+                                                                  <option>AB-</option>
+                                                                  <option>A-</option>
+                                                                  <option>B-</option>
+                                                              </select>
+                                              </div>
+                                              <div class="form-group ">
+                                                  <label>Request-type</label>
+                                                  <select [(ngModel)]="rt" name="rt">
+                                                      <option selected hidden>select your Request-type</option>
+                                                      <option>Emergency</option>
+                                                      <option>Normal</option>
+                                                     
+                                                  </select>
+                                              </div>
+                                            
+                                              <div class="form-group ">
+                                                      <label>HospitalName</label>
+                                                      <div *ngFor="let item of hospitals">
+                                                      <div *ngIf="item._id == activeHospitalId">
+                                                      <input type="text" [(ngModel)]="item.name" name="name">
+                                              </div>
+                                              </div>
+                                              </div>
+
+                                      </div>
+
+                                      <div class="col-sm-6">
+                                              <div class="form-group ">
+                                                      <label>Quantity</label>
+                                                      <br>
+                                                      <select [(ngModel)]="qt" name="qt">
+                                                          <option selected hidden>Select Quantity</option>
+                                                          <option>250ml</option>
+                                                          <option>500ml</option>
+                                                          <option>750ml</option>
+                                                         
+                                                      </select>
+                                              </div>
+                                              <div class="form-group ">
+                                                      <label>Component-type</label>
+                                                      <select [(ngModel)]="ct" name="ct">
+                                                          <option selected hidden>Select your Component-type</option>
+                                                          <option>Whole-blood</option>
+                                                          <option>RBC</option>
+                                                          <option>Platelets</option>
+                                                          <option>WBC</option>
+                                                          <option>Plasma</option>
+                                                         
+                                                      </select>
+                                              </div>
+
+                                              <div class="form-group ">
+                                                      <label>Address</label>
+                                                      <div *ngFor="let item of hospitals">
+                                                      <div *ngIf="item._id == activeHospitalId">
+                                                      <input type="text" [(ngModel)]="item.address" name="address">
+                                              </div>
+                                              </div>
+                                              </div>
+
+                                         
+
+                                              
+                                            
+                                      </div>
+                                      </div>
+                          
+                                      <div class="modal-footer">
+                                              <button type="submit">Send request</button>
+                                                <button type="button" class="btn btn-secondary" (click)="ref()">Close</button>
+                                      </div>
+                              
+                     
+                      </div>
+              </div>
+            </form>
+
+      </div>
+
+</div>
 
 
-                  <div class="col-6"></div>
-                  <div class="col-4 float-right mt-2">
-                      <p class="jumbotron  pt-1 pb-1 " style="color: rgb(67, 122, 224);background-color:rgb(179, 228, 247)">
-                          <b class="float-left">Name :</b>{{item.name}}
-                          <br>
-                          <b class="float-left">Address:</b>{{item.address}}</p>
-                  </div>
-                  <!-- <div class="col-1"></div> -->
-  <!-- change-6 change the parameters of blood group to middle ends here -->
-  <!-- <p>
-      <b>A+:</b> {{ item.Apos }}
-      <br>
-      <b>B+:</b> {{ item.Bpos }}
-      <br>
-      <b>O+:</b> {{ item.Opos }}
-      <br>
-      <b>AB+:</b> {{ item.ABpos }}
-      <br>
-      <b>A-:</b> {{ item.Aminus }}
-      <br>
-      <b>B-:</b> {{ item.Bminus }}
-      <br>
-      <b>O-:</b> {{ item.Ominus }}
-      <br>
-      <b>AB-:</b> {{ item.ABminus }}</p> -->
 </body>

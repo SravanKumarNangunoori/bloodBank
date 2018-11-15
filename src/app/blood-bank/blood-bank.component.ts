@@ -25,13 +25,36 @@ export class BloodBankComponent implements OnInit {
     showbloodbankDetails: boolean;
     shwForm: boolean = true;
     sho: boolean = true;
-
+    relativeModal:boolean;
+    requestlist:any;
+    activebloodbankname:any;
     ngOnInit() {
         this.mockData = { "Name": "Albany blood bank", "Address": "Albany", "Apos": 30, "Bpos": 20, "ABpos": 40, "Opos": 25, "Aminus": 30, "Bminus": 20, "ABminus": 40, "Ominus": 25 }
         this.showForm = false;
         this.showbloodbankDetails = false;
         this.showbloodbankdata();
     }
+
+
+    OpenEmergencyModal1()
+{
+  console.log("karthik")
+this.relativeModal=true;
+this.restclient.get('api/bloodbank').subscribe(
+  (result) => {
+    console.log(result);
+    this.requestlist = result;
+   
+  })
+
+}
+
+
+ref()
+{
+    this.relativeModal=false;  
+}
+
 
     selectChange(event: any) {
         // this.showbloodbank(event.target.value);
@@ -109,6 +132,8 @@ export class BloodBankComponent implements OnInit {
             if (this.bloodbanks[i].email == email) {
                 this.bloodbank = this.bloodbanks[i];
                 this.activebloodbankId = this.bloodbanks[i]._id;
+                this.activebloodbankname = this.bloodbanks[i].name;
+
                 console.log(this.bloodbank);
                 return;
             }

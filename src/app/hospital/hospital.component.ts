@@ -25,7 +25,8 @@ export class HospitalComponent implements OnInit {
     showHospitalDetails: boolean;
     sho: boolean = true;
     shwForm: boolean;
-
+    relativeModal:boolean;
+    bloodbanklist:any;
 
     ngOnInit() {
         //this.mockData = { "Name": "Albany HOSPITAL","Address":"Albany","Apos":30,"Bpos":20,"ABpos":40,"Opos":25,"Aminus":30,"Bminus":20,"ABminus":40,"Ominus":25}
@@ -45,6 +46,36 @@ export class HospitalComponent implements OnInit {
             }
         }
     }
+    OpenEmergencyModal()
+    {
+    this.relativeModal=true;
+    this.restclient.get('api/hospital').subscribe((result)=>{
+        this.bloodbanklist=result;
+        console.log("success")
+        
+      }, (error)=>{
+        console.log(error);
+      })
+    
+    }
+    
+    onFormSubmitTobb(event)
+    {
+    console.log(event);
+    this.restclient.post('api/hospital', event).subscribe((result)=>{
+        
+        console.log("success")
+        
+      }, (error)=>{
+        console.log(error);
+      })
+    }
+    ref()
+{
+    this.relativeModal=false;  
+}
+
+
 
     showHospital() {
         this.showHospitalDetails = false;

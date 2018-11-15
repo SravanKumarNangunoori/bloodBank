@@ -8,15 +8,27 @@ const userdb = mongojs('mongodb://team6user:team6password@ds125673.mlab.com:2567
 const hospitaldb = mongojs('mongodb://team6user:team6password@ds125673.mlab.com:25673/bloodbank').hospitaldb;
 const bloodbankdb = mongojs('mongodb://team6user:team6password@ds125673.mlab.com:25673/bloodbank').bloodbankdb;
 const registeredUserdb = mongojs('mongodb://team6user:team6password@ds125673.mlab.com:25673/bloodbank').registeredUsers;
+const emergency1 = mongojs('mongodb://team6user:team6password@ds125673.mlab.com:25673/bloodbank').emergency1;
 // const tempUser = mongojs('mongodb://team6user:team6password@ds125673.mlab.com:25673/bloodbank').hospitalTemp;
 // const bloodbankTemp = mongojs('mongodb://team6user:team6password@ds125673.mlab.com:25673/bloodbank').bloodBanktemp;
 
 
 
 /* GET api listing. */
-router.get('/', (req, res) => {
-    res.send('api works');
+router.get('/bloodbank', (req, res) => {
+    emergency1.find(function(err, docs) {
+        res.send(docs);
+    });
 });
+
+
+router.get('/hospital', (req, res) => {
+    console.log('called');
+    bloodbankdb.find(function(err, docs) {
+        res.send(docs);
+    });
+});
+
 
 // Get all user collection
 router.get('/usercollection', (req, res) => {
@@ -75,6 +87,17 @@ router.post('/posthospital', (req, res) => {
         res.send(doc);
     })
 });
+
+router.post('/hospital',(req,res)=>{
+    console.log(req.body)
+    emergency1.insert(req.body,function(err, doc) {
+             console.log(doc);
+             console.log("Successfully Added")
+             if (err) throw err;
+             res.send(doc);
+  });
+  });
+
 
 //update hospital
 router.post('/updatehospital', (req, res) => {
