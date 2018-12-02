@@ -1,0 +1,289 @@
+<!-- <button class="btn new" id = "button1" (click)=showhospitaldata()>Retreive Data</button> -->
+<!--change-3 seting a background image-start here-->
+
+<h1>Welcome Hospital Manager</h1>
+<button class="btn btn-danger" (click)="showEmergency=true"> Check pending Emergencies</button>
+<div *ngIf="showEmergency">
+    <div *ngIf="emergencyNotification">
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">Emergency </h4>
+            <p> Patient Name :{{emergencyNotification.user.name}}</p>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <agm-map [latitude]="emergencyNotification.location.lat" [longitude]="emergencyNotification.location.lon">
+                        <agm-marker [latitude]="emergencyNotification.location.lat" [longitude]="emergencyNotification.location.lon"></agm-marker>
+                    </agm-map>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+                    <button class="btn btn-danger" (click)="reportEmergency()"> Patient assisted</button>
+                    <button class="btn btn-danger" (click)="showEmergency=false"> Reporting  in Progress</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-3">
+        <div *ngIf="showHospital" align="center">
+            <div *ngFor="let item of hospitals">
+                <div *ngIf="item._id == activeHospitalId">
+
+
+                    <button *ngIf='true' class="btn btn mt-2" id="button2" (click)=gethospitaldata()>
+              Edit data
+            </button>
+
+                    <button *ngIf='true' class="btn btn mt-2" id="button2" (click)="OpenEmergencyModal()">Blood Request</button>
+
+                    <div *ngIf="showHospital" class="mt-2">
+                        <div *ngFor="let item of hospitals">
+                            <div *ngIf="item._id == activeHospitalId">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-5"></div>
+    <div class="col-4    mt-2 ">
+        <p class="jumbotron pb-1 pt-1 text-center">
+            Name :{{ hospital.name }}
+            <br> Address:{{ hospital.address }}
+
+        </p>
+    </div>
+</div>
+<form *ngIf="showForm" (submit)="$event.preventDefault(); onFormSubmit($event)">
+
+
+    <div class="col-6 offset-3  jumbotron pt-3 mt-2">
+        <div class="form-group row">
+            <label for="Apos" class="col-sm-2 col-form-label">Apos</label>
+            <div class="col-sm-8">
+                <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="hospital.Apos" class="form-control" id="Apos" placeholder="Apos" onkeypress="return (event.charCode > 47 && event.charCode < 58)">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Aminus" class="col-sm-2 col-form-label">Aminus</label>
+            <div class="col-sm-8">
+                <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="hospital.Aminus" class="form-control" id="Aminus" placeholder="Aminus" onkeypress="return (event.charCode > 47 && event.charCode < 58)">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Bpos" class="col-sm-2 col-form-label">Bpos</label>
+            <div class="col-sm-8">
+                <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="hospital.Bpos" class="form-control" id="Bpos" placeholder="Bpos" onkeypress="return (event.charCode > 47 && event.charCode < 58)">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Bminus" class="col-sm-2 col-form-label">Bminus</label>
+            <div class="col-sm-8">
+                <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="hospital.Bminus" class="form-control" id="Bminus" placeholder="Bminus" onkeypress="return (event.charCode > 47 && event.charCode < 58)">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ABpos" class="col-sm-2 col-form-label">ABpos</label>
+            <div class="col-sm-8">
+                <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="hospital.ABpos" class="form-control" id="ABpos" placeholder="ABpos" onkeypress="return (event.charCode > 47 && event.charCode < 58)">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ABminus" class="col-sm-2 col-form-label">ABminus</label>
+            <div class="col-sm-8">
+                <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="hospital.ABminus" class="form-control" id="ABminus" placeholder="ABminus" onkeypress="return (event.charCode > 47 && event.charCode < 58)">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Opos" class="col-sm-2 col-form-label">Opos</label>
+            <div class="col-sm-8">
+                <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="hospital.Opos" class="form-control" id="Opos" placeholder="Opos" onkeypress="return (event.charCode > 47 && event.charCode < 58)">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Ominus" class="col-sm-2 col-form-label">Ominus</label>
+            <div class="col-sm-8">
+                <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="hospital.Ominus" class="form-control" id="Ominus" placeholder="Ominus" onkeypress="return (event.charCode > 47 && event.charCode < 58)">
+            </div>
+        </div>
+
+        <button>Update</button>
+
+    </div>
+
+</form>
+<div *ngIf="shwForm" class=" col-6 offset-3 jumbotron pt-3 mt-2">
+    <form (submit)="$event.preventDefault(); onFormSubmit($event)">
+
+
+        <div class="form-group row">
+            <label for="Apos" class="col-sm-2 col-form-label">Apos</label>
+            <div class="col-sm-8">
+                <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="hospital.Apos" class="form-control" id="Apos" placeholder={{Apos}} readonly>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Aminus" class="col-sm-2 col-form-label">Aminus</label>
+            <div class="col-sm-8">
+                <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="hospital.Aminus" class="form-control" id="Aminus" placeholder={{Aminus}} readonly>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Bpos" class="col-sm-2 col-form-label">Bpos</label>
+            <div class="col-sm-8">
+                <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="hospital.Bpos" class="form-control" id="Bpos" placeholder={{Bpos}} readonly>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Bminus" class="col-sm-2 col-form-label">Bminus</label>
+            <div class="col-sm-8">
+                <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="hospital.Bminus" class="form-control" id="Bminus" placeholder={{Bminus}} readonly>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ABpos" class="col-sm-2 col-form-label">ABpos</label>
+            <div class="col-sm-8">
+                <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="hospital.ABpos" class="form-control" id="ABpos" placeholder={{ABpos}} readonly>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ABminus" class="col-sm-2 col-form-label">ABminus</label>
+            <div class="col-sm-8">
+                <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="hospital.ABminus" class="form-control" id="ABminus" placeholder={{ABminus}} readonly>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Opos" class="col-sm-2 col-form-label">Opos</label>
+            <div class="col-sm-8">
+                <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="hospital.Opos" class="form-control" id="Opos" placeholder={{Opos}} readonly>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Ominus" class="col-sm-2 col-form-label">Ominus</label>
+            <div class="col-sm-8">
+                <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="hospital.Ominus" class="form-control" id="Ominus" placeholder={{Ominus}} readonly>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div *ngIf="relativeModal" class="modal fade show" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" style="display:block">
+
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <form #ref9="ngForm" (ngSubmit)="onFormSubmitTobb(ref9.value)">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title " id="exampleModalLongTitle">Blood Request Form</h5>
+                    <div class="form-group ">
+                        <label>Blood banks</label>
+                        <br>
+                        <select [(ngModel)]="bb" name="bb" required>
+                                            
+                                             <option selected hidden>select nearest bloodbank</option>
+                                               
+                                             <option *ngFor="let i of bloodbanklist">{{i.name}}</option>
+                                             
+                                             
+                                         </select>
+                    </div>
+                </div>
+
+                <div class="modal-body  container">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label>Blood Group</label>
+                                <select [(ngModel)]="bg" name="bg" required>
+                                                                  <option selected hidden>select your BloodGroup</option>
+                                                                  <option>A+</option>
+                                                                  <option>B+</option>
+                                                                  <option>O+</option>
+                                                                  <option>O-</option>
+                                                                  <option>AB+</option>
+                                                                  <option>AB-</option>
+                                                                  <option>A-</option>
+                                                                  <option>B-</option>
+                                                              </select>
+                            </div>
+                            <div class="form-group ">
+                                <label>Request-type</label>
+                                <select [(ngModel)]="rt" name="rt" required>
+                                                      <option selected hidden>select your Request-type</option>
+                                                      <option>Emergency</option>
+                                                      <option>Normal</option>
+                                                     
+                                                  </select>
+                            </div>
+
+                            <div class="form-group ">
+                                <label>HospitalName</label>
+                                <div *ngFor="let item of hospitals">
+                                    <div *ngIf="item._id == activeHospitalId">
+                                        <input type="text" [(ngModel)]="item.name" name="name" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label>Quantity</label>
+                                <br>
+                                <select [(ngModel)]="qt" name="qt" required>
+                                                          <option selected hidden>Select Quantity</option>
+                                                          <option>250ml</option>
+                                                          <option>500ml</option>
+                                                          <option>750ml</option>
+                                                         
+                                                      </select>
+                            </div>
+                            <div class="form-group ">
+                                <label>Component-type</label>
+                                <select [(ngModel)]="ct" name="ct" required>
+                                                          <option selected hidden>Select your Component-type</option>
+                                                          <option>Whole-blood</option>
+                                                          <option>RBC</option>
+                                                          <option>Platelets</option>
+                                                          <option>WBC</option>
+                                                          <option>Plasma</option>
+                                                         
+                                                      </select>
+                            </div>
+
+                            <div class="form-group ">
+                                <label>Address</label>
+                                <div *ngFor="let item of hospitals">
+                                    <div *ngIf="item._id == activeHospitalId">
+                                        <input type="text" [(ngModel)]="item.address" name="address" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" [disabled]="!ref9.valid">Send request</button>
+                        <button type="button" class="btn btn-secondary" (click)="ref()">Close</button>
+                    </div>
+
+
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</div>

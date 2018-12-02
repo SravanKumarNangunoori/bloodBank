@@ -1,0 +1,199 @@
+<div class="container-fluid">
+    <h1>User Profile Data</h1>
+    <div class="row">
+        <div *ngIf="currentUserProfile" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <div class="row ">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <p><span><Strong>Name:</Strong>{{currentUserProfile.name}}</span></p>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <p><span><Strong>Email:</Strong>{{currentUserProfile.email}}</span></p>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <p><span><Strong>Blood Group:</Strong>{{currentUserProfile.bloodGroup}}</span></p>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <p><span><Strong>Phone Number:</Strong>{{currentUserProfile.phonenumber}}</span></p>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <p><span><Strong>Address:</Strong>{{currentUserProfile.address}}</span></p>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <p><span><Strong>Age:</Strong>{{currentUserProfile.age}}</span></p>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <p><span><Strong>State:</Strong>{{currentUserProfile.state}}</span></p>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <p><span><Strong>Zip:</Strong>{{currentUserProfile.zip}}</span></p>
+                </div>
+            </div>
+            <div class="row " >
+                <h5>Emergency Contacts</h5>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <table class="table">
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                        </tr>
+                        <tr *ngFor="let item of currentUserProfile.relatives">
+                            <td>{{item.name}}</td>
+                            <td>{{item.email}}</td>
+                            <td>{{item.phonenumber}}</td>
+
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+            <div *ngIf="currentUserProfile.sameblood" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                <h5>Same Blood Group</h5>
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <table class="table">
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                        </tr>
+                        <tr *ngFor="let item of currentUserProfile.sameblood">
+                            <td>{{item.name1}}</td>
+                            <td>{{item.email1}}</td>
+                            <td>{{item.phonenumber1}}</td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <div class="row">
+                <button class="btn btn-secondary contnueButton" (click)="OpenRelativeModal()">Add an Emergency Contact</button>
+            </div>
+            <div class="row">
+                <button class="btn btn-secondary contnueButton" (click)="OpenSameBLoodModal()">Add a person with same
+                            blood group</button>
+            </div>
+            <div class="row">
+                <button class="btn btn-secondary contnueButton btbtn-danger" (click)="emergency()">Emergency
+                    </button>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="relativeModal" class="modal fade show" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" style="display:block">
+
+        <div class="modal-dialog modal-dialog-centered " role="document">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title " id="exampleModalLongTitle">Add Emergency Contact</h5>
+                </div>
+
+                <div class="modal-body  container">
+
+                    <form #relativeForm="ngForm" (ngSubmit)="submitrelativeForm(relativeForm.value);relativeForm.resetForm()">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Email</label>
+                                <input type="email" class="form-control" pattern="[a-zA-Z0-9!#$%&amp;'*+\/=?^_`{|}~.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*" required [(ngModel)]="email" name="email" #ref88="ngModel"
+                                 placeholder="Email" >
+                                <label class="text-danger" *ngIf="ref88.touched&&ref88.pristine">email is mandatory</label>
+                                <label class="text-danger" *ngIf="ref88.invalid&&ref88.dirty">invalid email</label>
+
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputName">Name</label>
+                                <input type="text" class="form-control" [(ngModel)]="name" name="name" #ref99="ngModel" placeholder="Name" required onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)||(event.charCode == 32)">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                                <div class="form-group col-md-6">
+                                        <label for="inputage">Age</label>
+        
+                                    <input type="text" class="form-control" (blur)="onAge(refAge.value)" [(ngModel)]="age1" name="age1" #refAge="ngModel" minlength="1" maxlength="2" required id="inputage" onkeypress="return (event.charCode > 47 && event.charCode < 58)">
+                                        
+                                    </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputphoneNumber">Phone Number</label>
+                                <input type="text" class="form-control" minlength="10" maxlength="10" [(ngModel)]=phonenumber name="phonenumber" required #ref22="ngModel" id="inputphoneNumber"  onkeypress="return (event.charCode > 47 && event.charCode < 58)">
+                                
+                            </div>
+
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success contnueButton" [disabled]="!relativeForm.valid" >Submit</button>
+                            <button type="button" class="btn btn-secondary contnueButton" (click)="test11()">close</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <div *ngIf="sameBloodModal" class="modal fade show" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" style="display:block">
+
+        <div class="modal-dialog modal-dialog-centered " role="document">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title " id="exampleModalLongTitle">Add  Relative</h5>
+                </div>
+
+                <div class="container modal-body ">
+
+
+                    <form #sameBloodForm="ngForm" (ngSubmit)="submitSameBloodForm(sameBloodForm.value);sameBloodForm.resetForm()" >
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Email</label>
+                                <input type="email" class="form-control"  pattern="[a-zA-Z0-9!#$%&amp;'*+\/=?^_`{|}~.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*" required [(ngModel)]=email1 name="email1" #refEmail="ngModel" placeholder="Email">
+                                <label class="text-danger" *ngIf="refEmail.touched&&refEmail.pristine">email is mandatory</label>
+                                <label class="text-danger" *ngIf="refEmail.invalid&&refEmail.dirty">invalid email</label>
+
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputName">Name</label>
+                                <input type="text" class="form-control" [(ngModel)]=name1 name="name1" #refName="ngModel" placeholder="Name" required onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)||(event.charCode == 32)">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputphoneNumber">Phone Number</label>
+                                <input type="text" class="form-control"  minlength="10" maxlength="10" id="inputphoneNumber" [(ngModel)]=phonenumber1 name="phonenumber1" required #refpH="ngModel" onkeypress="return (event.charCode > 47 && event.charCode < 58)">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputage">Age</label>
+
+                                <input type="text" class="form-control" (blur)="onAge(refAge.value)" [(ngModel)]="age1" name="age1" #refAge="ngModel" minlength="1" maxlength="2" required id="inputage" onkeypress="return (event.charCode > 47 && event.charCode < 58)">
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-secondary contnueButton" [disabled]="!sameBloodForm.valid">Submit</button>
+                            <button type="button" class="btn btn-secondary contnueButton" (click)="test111()">close</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
