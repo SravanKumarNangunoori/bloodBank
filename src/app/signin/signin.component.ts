@@ -48,11 +48,11 @@ export class SigninComponent implements OnInit {
       email: ['', Validators.required],
       name: ['', Validators.required],
       address: ['', Validators.required],
-      phonenumber: ['', Validators.required],
+      phonenumber: ['', Validators.compose([Validators.required,Validators.minLength(10)])],
       state: ['', Validators.required],
       city: ['', Validators.required],
-      zip: ['', Validators.required],
-      age: ['', Validators.required],
+      zip: ['',  Validators.compose([Validators.required,Validators.minLength(5)])],
+      age: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
       bloodGroup: ['', Validators.required],
 
     });
@@ -61,10 +61,10 @@ export class SigninComponent implements OnInit {
       email: ['', Validators.required],
       name: ['', Validators.required],
       address: ['', Validators.required],
-      phonenumber: ['', Validators.required],
+      phonenumber: ['', Validators.compose([Validators.required,Validators.minLength(10)])],
       state: ['', Validators.required],
       city: ['', Validators.required],
-      zip: ['', Validators.required],
+      zip: ['',  Validators.compose([Validators.required,Validators.minLength(5)])],
       AmbulanceNumber: ['', Validators.required],
 
     });
@@ -72,10 +72,10 @@ export class SigninComponent implements OnInit {
       email: ['', Validators.required],
       name: ['', Validators.required],
       address: ['', Validators.required],
-      phonenumber: ['', Validators.required],
+      phonenumber: ['', Validators.compose([Validators.required,Validators.minLength(10)])],
       state: ['', Validators.required],
       city: ['', Validators.required],
-      zip: ['', Validators.required],
+      zip: ['',  Validators.compose([Validators.required,Validators.minLength(5)])],
 
     });
     this.getLocationOfUser();
@@ -113,7 +113,6 @@ export class SigninComponent implements OnInit {
     );
 
   }
-
 
   validateUser(registeredUser) {
     registeredUser.forEach(element => {

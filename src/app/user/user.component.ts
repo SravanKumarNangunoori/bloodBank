@@ -23,6 +23,37 @@ export class UserComponent implements OnInit {
   lng: number;
   nearestHospital: any;
 
+  test11()
+  {
+this.relativeModal=false
+  }
+
+  test111()
+  {
+this.sameBloodModal=false
+  }
+  
+
+  age:string;
+  onAge(ag){
+    console.log(ag)
+    if(ag>120) {
+   this.age="";
+   alert("Age should not be greater than 120")
+  }
+  }
+
+
+
+  
+ // age1:string;
+  //onAge1(ag){
+   // console.log(ag)
+   // if(ag>120) {
+   //this.age1="";
+  // alert("Age should not be greater than 120")
+ // }
+ // }
   constructor(private restclient: RestClientService,
     private dataservice: DataShareService,
     private formBuilder: FormBuilder) { }
@@ -45,7 +76,7 @@ export class UserComponent implements OnInit {
       age: ['', Validators.required]
 
     })
-
+console.log(this.currentUserProfile.sameblood);
   }
 
 
@@ -81,7 +112,24 @@ export class UserComponent implements OnInit {
   //       console.log(error)
   //     }
   //   )
-  // }
+//   // }
+email:any;
+name:any;
+phonenumber:any;
+
+email1:any;
+name1:any;
+phonenumber1:any;
+
+
+  numberOnly(event): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+
+  }
 
   updateUserData(){
     this.restclient.post('api/updateUser', this.currentUserProfile).subscribe((result)=>{
@@ -93,18 +141,30 @@ export class UserComponent implements OnInit {
       console.log(error);
     })
   }
-
+  i:number=0;
+ // samebloods:any[]=[];
   submitSameBloodForm(sameBloodForm) {
-    console.log(sameBloodForm);
     this.currentUserProfile.sameblood.push(sameBloodForm);
+    // this.email1="";
+    // this.age1="";
+    // this.phonenumber1="";
+    // this.name1="";
+   // console.log(this.samebloods);
+    this.currentUserProfile.sameblood=this.currentUserProfile.sameblood;
     this.updateUserData();
-    this.sameBloodModal = false;
+   // this.sameBloodModal = false;
   }
+ // relatives:any[]=[];
   submitrelativeForm(relativeForm) {
-    console.log(relativeForm);
-    this.currentUserProfile.relatives.push(relativeForm);
-    this.updateUserData();
-    this.relativeModal = false;
+    this.currentUserProfile.relatives.push(relativeForm)
+    // this.email="";
+    // this.age="";
+    // this.phonenumber="";
+    // this.name="";
+    
+   // console.log(relativeForm);
+    this.currentUserProfile.relatives=this.currentUserProfile.relatives;
+    //this.relativeModal = false;
   }
 
   emergency() {
