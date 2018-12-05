@@ -76,7 +76,6 @@ this.sameBloodModal=false
       age: ['', Validators.required]
 
     })
-console.log(this.currentUserProfile.sameblood);
   }
 
 
@@ -152,7 +151,7 @@ phonenumber1:any;
    // console.log(this.samebloods);
     this.currentUserProfile.sameblood=this.currentUserProfile.sameblood;
     this.updateUserData();
-   // this.sameBloodModal = false;
+   this.sameBloodModal = false;
   }
  // relatives:any[]=[];
   submitrelativeForm(relativeForm) {
@@ -164,7 +163,7 @@ phonenumber1:any;
     
    // console.log(relativeForm);
     this.currentUserProfile.relatives=this.currentUserProfile.relatives;
-    //this.relativeModal = false;
+    this.relativeModal = false;
   }
 
   emergency() {
