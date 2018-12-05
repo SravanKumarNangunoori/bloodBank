@@ -70,19 +70,13 @@ export class HospitalComponent implements OnInit {
                     }
                 }
                 this.emergencyNotification = element;
-                // alert("Emergency at location"+element.location.lat + '  '+element.location.lon + 'by' + element.user.name);        
             }
         });
     }
-    // selectChange(event: any) {
-    //     //this.showHospital(event.target.value);
-    // }
-    //     this.showHospitalDetails = false;
-    //     this.showhospitaldata();
-    // }
+   
 
     selectChange(event: any) {
-        //this.showHospital(event.target.value);
+        
     }
     selectDetailChange(event: any) {
         for (var i = 0; i < this.hospitals.length; i++) {
@@ -178,8 +172,7 @@ export class HospitalComponent implements OnInit {
         var that = this;
         this.restclient.get('api/hospitalcollection').subscribe(
             (result) => {
-                //var inp1 = document.getElementById("Name");
-                //var inp2 = document.getElementById("Address");
+               
                 that.hospitals = result;
                 that.showHospital();
                 that.showForm = this.sho;

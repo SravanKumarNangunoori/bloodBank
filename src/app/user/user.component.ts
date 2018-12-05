@@ -34,26 +34,11 @@ this.sameBloodModal=false
   }
   
 
-  age:string;
-  onAge(ag){
-    console.log(ag)
-    if(ag>120) {
-   this.age="";
-   alert("Age should not be greater than 120")
-  }
-  }
-
+  
 
 
   
- // age1:string;
-  //onAge1(ag){
-   // console.log(ag)
-   // if(ag>120) {
-   //this.age1="";
-  // alert("Age should not be greater than 120")
- // }
- // }
+
   constructor(private restclient: RestClientService,
     private dataservice: DataShareService,
     private formBuilder: FormBuilder) { }
@@ -85,7 +70,7 @@ console.log(this.currentUserProfile.sameblood);
     this.restclient.get('/api/usercollection').subscribe(
       (result) => {
         this.userProfiles = result;
-        // console.log(this.userProfiles);
+       
         this.getCurrentUserProfie();
       }, (error) => {
         console.log(error);
@@ -103,23 +88,12 @@ console.log(this.currentUserProfile.sameblood);
 
     });
   }
-  //post user Data
-  // postUserData() {
-  //   this.restclient.post('/api/usercollection', this.mockData).subscribe(
-  //     (result) => {
-  //       console.log("Sucess");
-  //     }, (error) => {
-  //       console.log(error)
-  //     }
-  //   )
-//   // }
+  
 email:any;
 name:any;
 phonenumber:any;
 
-email1:any;
-name1:any;
-phonenumber1:any;
+
 
 
   numberOnly(event): boolean {
@@ -142,29 +116,22 @@ phonenumber1:any;
     })
   }
   i:number=0;
- // samebloods:any[]=[];
+ 
   submitSameBloodForm(sameBloodForm) {
     this.currentUserProfile.sameblood.push(sameBloodForm);
-    // this.email1="";
-    // this.age1="";
-    // this.phonenumber1="";
-    // this.name1="";
-   // console.log(this.samebloods);
+    
     this.currentUserProfile.sameblood=this.currentUserProfile.sameblood;
     this.updateUserData();
-   // this.sameBloodModal = false;
+   
   }
- // relatives:any[]=[];
+ 
   submitrelativeForm(relativeForm) {
     this.currentUserProfile.relatives.push(relativeForm)
-    // this.email="";
-    // this.age="";
-    // this.phonenumber="";
-    // this.name="";
+   
     
-   // console.log(relativeForm);
+   
     this.currentUserProfile.relatives=this.currentUserProfile.relatives;
-    //this.relativeModal = false;
+    
   }
 
   emergency() {
