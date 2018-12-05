@@ -112,7 +112,7 @@ ref()
         var that = this;
         this.restclient.get('api/bloodbankcollection').subscribe(
             (result) => {
-
+console.log(result);
                 that.bloodbanks = result;
                 that.showbloodbank();
                 that.showForm = this.sho;
@@ -144,6 +144,7 @@ ref()
         this.restclient.get('api/bloodbankcollection').subscribe(
             (result) => {
                 console.log("in show para");
+                console.log(result)
                 that.bloodbanks = result;
                 that.showbloodbankDetails = true;
                 that.showForm = false;

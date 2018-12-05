@@ -91,30 +91,45 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputEmail4">Email</label>
-                                <input type="email" class="form-control" formControlName="email" placeholder="Email" [disabled]=true>
-                            </div>
+                                <input type="email" class="form-control" formControlName="email" placeholder="Email" [disabled]=true readonly>
+                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputName">Name</label>
-                                <input type="text" class="form-control" formControlName="name" placeholder="Name">
+                                <input type="text" class="form-control" formControlName="name" placeholder="Name" required onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)||(event.charCode == 32)">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputAddress">Address</label>
-                            <input type="text" class="form-control" id="inputAddress" formControlName="address" placeholder="1234 Main St">
+                            <input type="text" class="form-control" id="inputAddress" formControlName="address" placeholder="1234 Main St" required>
+                            <div class="error" *ngIf="userInfoForm.get('address').touched && userInfoForm.get('address').hasError('required')">
+                                This field is required
+                            </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="inputphoneNumber">Phone Number</label>
-                                <input type="text" class="form-control" formControlName="phonenumber" id="inputphoneNumber">
+                                <input type="text" class="form-control" formControlName="phonenumber" id="inputphoneNumber" required maxlength="10" onkeypress="return (event.charCode > 47 && event.charCode < 58)">
+                                <div class="error" *ngIf="userInfoForm.get('phonenumber').dirty && userInfoForm.get('phonenumber').hasError('minlength')">
+                                    Minimum 10 Numbers...
+                                  </div>
+                                  <div class="error" *ngIf="userInfoForm.get('phonenumber').touched && userInfoForm.get('phonenumber').hasError('required')">
+                                    This field is required
+                                  </div>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="inputage">Age</label>
 
-                                <input type="text" class="form-control" formControlName="age" id="inputage">
+                                <input type="text" class="form-control" formControlName="age" id="inputage" required maxlength="2" onkeypress="return (event.charCode > 47 && event.charCode < 58)">
+                                <div class="error" *ngIf="userInfoForm.get('age').dirty && userInfoForm.get('age').hasError('minlength')">
+                                    
+                                </div>
+                                <div class="error" *ngIf="userInfoForm.get('age').touched && userInfoForm.get('age').hasError('required')">
+                                    This field is required
+                                </div>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="inputBG">Blood Group</label>
-                                <select id="inputBG" class="form-control" formControlName="bloodGroup">
+                                <select id="inputBG" class="form-control" formControlName="bloodGroup" required>
                                                                 <option selected>Blood group</option>
                                                                 <option value="o+">O +ve</option>
                                                                 <option value="o-">O -ve</option>
@@ -125,25 +140,40 @@
                                                                 <option value="ab+">AB +ve</option>
                                                                 <option value="ab-">AB -ve</option>
                                                         </select>
+                                <div class="error" *ngIf="userInfoForm.get('bloodGroup').touched && userInfoForm.get('bloodGroup').hasError('required')">
+                                    This field is required
+                                </div>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputCity">City</label>
-                                <input type="text" class="form-control" formControlName="city" id="inputCity">
+                                <input type="text" class="form-control" formControlName="city" id="inputCity" required onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)||(event.charCode == 32)">
+                                <div class="error" *ngIf="userInfoForm.get('city').touched && userInfoForm.get('city').hasError('required')">
+                                    This field is required
+                                </div>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="inputState">State</label>
 
-                                <input type="text" class="form-control" formControlName="state" id="inputState">
+                                <input type="text" class="form-control" formControlName="state" id="inputState" required onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)||(event.charCode == 32)">
+                                <div class="error" *ngIf="userInfoForm.get('state').touched && userInfoForm.get('state').hasError('required')">
+                                    This field is required
+                                </div>
                             </div>
                             <div class="form-group col-md-2">
                                 <label for="inputZip">Zip</label>
-                                <input type="text" class="form-control" formControlName="zip" id="inputZip">
+                                <input type="text" class="form-control" formControlName="zip" id="inputZip" required maxlength="6" onkeypress="return (event.charCode > 47 && event.charCode < 58)">
+                                <div class="error" *ngIf="userInfoForm.get('zip').dirty && userInfoForm.get('zip').hasError('minlength')">
+                                    Minimum 5 Numbers...
+                                  </div>
+                                  <div class="error" *ngIf="userInfoForm.get('zip').touched && userInfoForm.get('zip').hasError('required')">
+                                    This field is required
+                                  </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary contnueButton" (click)="submitUserForm(userInfoForm.value)">Submit</button>
+                            <button type="button" class="btn btn-secondary contnueButton" [disabled]="!userInfoForm.valid" (click)="submitUserForm(userInfoForm.value)">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -182,41 +212,67 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputEmail4">Email</label>
-                                <input type="email" class="form-control" formControlName="email" placeholder="Email" [disabled]=true>
+                                <input type="email" class="form-control" formControlName="email" placeholder="Email" [disabled]=true readonly>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputName">Name</label>
-                                <input type="text" class="form-control" formControlName="name" placeholder="Name">
+                                <input type="text" class="form-control" formControlName="name" placeholder="Name" required onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)||(event.charCode == 32)">
+                                <div class="error" *ngIf="bloodbankform.get('name').touched && bloodbankform.get('name').hasError('required')">
+                                    This field is required
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputAddress">Address</label>
-                            <input type="text" class="form-control" id="inputAddress" formControlName="address" placeholder="1234 Main St">
+                            <input type="text" class="form-control" id="inputAddress" formControlName="address" placeholder="1234 Main St" required>
+                            <div class="error" *ngIf="bloodbankform.get('address').touched && bloodbankform.get('address').hasError('required')">
+                                This field is required
+                            </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="inputphoneNumber">Phone Number</label>
-                                <input type="text" class="form-control" formControlName="phonenumber" id="inputphoneNumber">
+                                <input type="text" class="form-control" formControlName="phonenumber" maxlength="10" id="inputphoneNumber" required onkeypress="return (event.charCode > 47 && event.charCode < 58)">
+                                
+                                <div class="error" *ngIf="bloodbankform.get('phonenumber').dirty && bloodbankform.get('phonenumber').hasError('minlength')">
+                                    Minimum 10 Numbers...
+                                  </div>
+                                  <div class="error" *ngIf="bloodbankform.get('phonenumber').touched && bloodbankform.get('phonenumber').hasError('required')">
+                                    This field is required
+                                  </div>
                             </div>
 
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputCity">City</label>
-                                <input type="text" class="form-control" formControlName="city" id="inputCity">
+                                <input type="text" class="form-control" formControlName="city" id="inputCity" required onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)||(event.charCode == 32)">
+                                <div class="error" *ngIf="bloodbankform.get('city').touched && bloodbankform.get('city').hasError('required')">
+                                    This field is required
+                                </div>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="inputState">State</label>
 
-                                <input type="text" class="form-control" formControlName="state" id="inputState">
+                                <input type="text" class="form-control" formControlName="state" id="inputState" required onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)||(event.charCode == 32)">
+                                <div class="error" *ngIf="bloodbankform.get('state').touched && bloodbankform.get('state').hasError('required')">
+                                    This field is required
+                                </div>
                             </div>
                             <div class="form-group col-md-2">
                                 <label for="inputZip">Zip</label>
-                                <input type="text" class="form-control" formControlName="zip" id="inputZip">
+                                <input type="text" class="form-control" formControlName="zip" id="inputZip" maxlength="6" required onkeypress="return (event.charCode > 47 && event.charCode < 58)">
+                                <div class="error" *ngIf="bloodbankform.get('zip').dirty && bloodbankform.get('zip').hasError('minlength')">
+                                    Minimum 5 Numbers...
+                                  </div>
+                                  <div class="error" *ngIf="bloodbankform.get('zip').touched && bloodbankform.get('zip').hasError('required')">
+                                    This field is required
+                                  </div>
                             </div>
+                            
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary contnueButton" (click)="submitBloodBankform(bloodbankform.value)">Submit</button>
+                            <button type="button" class="btn btn-secondary contnueButton" [disabled]="!bloodbankform.valid" (click)="submitBloodBankform(bloodbankform.value)">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -251,44 +307,71 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputEmail4">Email</label>
-                                <input type="email" class="form-control" formControlName="email" placeholder="Email" [disabled]=true>
+                                <input type="email" class="form-control" formControlName="email" placeholder="Email" [disabled]=true readonly>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputName">Name</label>
-                                <input type="text" class="form-control" formControlName="name" placeholder="Name">
+                                <input type="text" class="form-control" formControlName="name" placeholder="Name" required onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)||(event.charCode == 32)">
+                                <div class="error" *ngIf="hospitalform.get('name').touched && hospitalform.get('name').hasError('required')">
+                                    This field is required
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputAddress">Address</label>
-                            <input type="text" class="form-control" id="inputAddress" formControlName="address" placeholder="1234 Main St">
+                            <input type="text" class="form-control" id="inputAddress" formControlName="address" required placeholder="1234 Main St">
+                            <div class="error" *ngIf="hospitalform.get('address').touched && hospitalform.get('address').hasError('required')">
+                                This field is required
+                            </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="inputphoneNumber">Phone Number</label>
-                                <input type="text" class="form-control" formControlName="phonenumber" id="inputphoneNumber">
+                                <input type="text" class="form-control" formControlName="phonenumber" maxlength="10" required id="inputphoneNumber" onkeypress="return (event.charCode > 47 && event.charCode < 58)">
+                                <div class="error" *ngIf="hospitalform.get('phonenumber').dirty && hospitalform.get('phonenumber').hasError('minlength')">
+                                    Minimum 10 Numbers...
+                                  </div>
+                                  <div class="error" *ngIf="hospitalform.get('phonenumber').touched && hospitalform.get('phonenumber').hasError('required')">
+                                    This field is required
+                                  </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputAmbulanceNumber">Number of Ambulances Available</label>
-                                <input type="text" class="form-control" formControlName="AmbulanceNumber" id="inputAmbulanceNumber">
+                                <input type="text" class="form-control" formControlName="AmbulanceNumber" maxlength="3" required id="inputAmbulanceNumber" onkeypress="return (event.charCode > 47 && event.charCode < 58)">
+                                <div class="error" *ngIf="hospitalform.get('AmbulanceNumber').touched && hospitalform.get('AmbulanceNumber').hasError('required')">
+                                    This field is required
+                                </div>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputCity">City</label>
-                                <input type="text" class="form-control" formControlName="city" id="inputCity">
+                                <input type="text" class="form-control" formControlName="city" required id="inputCity" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)||(event.charCode == 32)">
+                                <div class="error" *ngIf="hospitalform.get('city').touched && hospitalform.get('city').hasError('required')">
+                                    This field is required
+                                </div>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="inputState">State</label>
 
-                                <input type="text" class="form-control" formControlName="state" id="inputState">
+                                <input type="text" class="form-control" formControlName="state" required id="inputState" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)||(event.charCode == 32)">
+                                <div class="error" *ngIf="hospitalform.get('state').touched && hospitalform.get('state').hasError('required')">
+                                    This field is required
+                                </div>
                             </div>
                             <div class="form-group col-md-2">
                                 <label for="inputZip">Zip</label>
-                                <input type="text" class="form-control" formControlName="zip" id="inputZip">
+                                <input type="text" class="form-control" formControlName="zip" maxlength="6" required id="inputZip" onkeypress="return (event.charCode > 47 && event.charCode < 58)">
+                                <div class="error" *ngIf="hospitalform.get('zip').dirty && hospitalform.get('zip').hasError('minlength')">
+                                    Minimum 5 Numbers...
+                                  </div>
+                                  <div class="error" *ngIf="hospitalform.get('zip').touched && hospitalform.get('zip').hasError('required')">
+                                    This field is required
+                                  </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary contnueButton" (click)="submitHositalform(hospitalform.value)">Submit</button>
+                            <button type="button" class="btn btn-secondary contnueButton" [disabled]="!hospitalform.valid" (click)="submitHositalform(hospitalform.value)">Submit</button>
                         </div>
                     </form>
                 </div>
