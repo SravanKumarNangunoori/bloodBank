@@ -113,17 +113,17 @@ export class UserComponent implements OnInit {
     var a,b;
     setTimeout(() => {
       
+    a=this.calculateDistance(this.hospitals[0].location.latitude,this.hospitals[0].location.longitude);
     let nearesthospital=this.hospitals[0];
    for(var i=0;i < this.hospitals.length - 1;i++){
-   a=this.calculateDistance(this.hospitals[i].location.latitutde,this.hospitals[i].location.longitude);
-   b= this.calculateDistance(this.hospitals[i+1].location.latitutde,this.hospitals[i+1].location.longitude);
-   console.log(a,b);
+   b=this.calculateDistance(this.hospitals[i].location.latitude,this.hospitals[i].location.longitude);   
     if(a<b){
       nearesthospital=this.hospitals[i];
     }
    }
    
    this.nearestHospital=nearesthospital;
+   console.log(this.nearestHospital);
    this.postNotification();
     }, 1000);
 
@@ -179,12 +179,28 @@ export class UserComponent implements OnInit {
   }
 
   calculateDistance(lati,longi){
-    var distance=((this.lat -lati)*(this.lat -lati))+((this.lng-longi)*(this.lng-longi));
-    distance=Math.sqrt(distance);
-    console.log(distance);
-    return distance;
+    let d=this.getDistanceFromLatLonInKm(this.lat,this.lng,lati,longi);
+    console.log(d);
+    return d;
   }
   
 
-
+getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = this.deg2rad(lat2-lat1);  // deg2rad below
+    var dLon = this.deg2rad(lon2-lon1); 
+    var a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2)
+      ; 
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    var d = R * c; // Distance in km
+    return d;
+  }
+  
+  deg2rad(deg) {
+    return deg * (Math.PI/180)
+  }
+  
 }
