@@ -51,19 +51,19 @@ this.sameBloodModal=false
       email: ['', Validators.required],
       name: ['', Validators.required],
       phonenumber: ['', Validators.required],
-      age: ['', Validators.required],
+      age: ['', Validators.required,Validators.max(100), Validators.min(0)],
 
     });
     this.sameBloodForm = this.formBuilder.group({
       email: ['', Validators.required],
       name: ['', Validators.required],
       phonenumber: ['', Validators.required],
-      age: ['', Validators.required]
+      age: ['', Validators.required,Validators.max(100), Validators.min(0)]
 
     })
   }
 
-
+ 
   ///get user data
   getUserprofile() {
     this.restclient.get('/api/usercollection').subscribe(
@@ -117,19 +117,25 @@ phonenumber:any;
   i:number=0;
  
   submitSameBloodForm(sameBloodForm) {
-    this.currentUserProfile.sameblood.push(sameBloodForm);
+    let testsample={
+      sameblood:sameBloodForm
+    }
     
-    this.currentUserProfile.sameblood=this.currentUserProfile.sameblood;
+    // this.currentUserProfile.push(testsample);    
+    this.currentUserProfile.sameblood.push(sameBloodForm);
     this.updateUserData();
    this.sameBloodModal = false;
   }
  
   submitrelativeForm(relativeForm) {
-    this.currentUserProfile.relatives.push(relativeForm)
-   
+    let testsample={
+      relatives:relativeForm
+    }
     
+    this.currentUserProfile.relatives.push(relativeForm);
    
-    this.currentUserProfile.relatives=this.currentUserProfile.relatives;
+    // this.currentUserProfile.relatives=testsample;
+    this.updateUserData();
     this.relativeModal = false;
   }
 
