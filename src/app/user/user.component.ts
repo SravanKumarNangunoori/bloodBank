@@ -12,6 +12,7 @@ import { } from '@types/googlemaps';
 export class UserComponent implements OnInit {
   userData: any;
   mockData: any;
+  emergencyHospital:string;
   userProfiles: {};
   currentUserProfile: any;
   relativeModal: boolean;
@@ -149,7 +150,7 @@ phonenumber:any;
     let nearesthospital=this.hospitals[0];
    for(var i=0;i < this.hospitals.length - 1;i++){
    b=this.calculateDistance(this.hospitals[i].location.latitude,this.hospitals[i].location.longitude);   
-    if(a<b){
+    if(a>b){
       nearesthospital=this.hospitals[i];
     }
    }

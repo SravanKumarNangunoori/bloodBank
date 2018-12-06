@@ -1,6 +1,9 @@
 <div class="container-fluid userComponent">
     <div class="tint">
         <h1>User Profile Data</h1>
+        <div class="alert alert-primary" role="alert" *ngIf="nearestHospital">
+            Request Raised to {{nearestHospital.email}} , Name : {{nearestHospital.name}}
+        </div>
         <div class="row">
             <div *ngIf="currentUserProfile" class="col-lg-8 col-md-8 col-sm-12 col-xs-12 container-fluid">
                 <div class="row ">
